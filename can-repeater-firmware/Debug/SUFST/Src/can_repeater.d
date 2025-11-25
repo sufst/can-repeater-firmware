@@ -1,6 +1,7 @@
 SUFST/Src/can_repeater.o: ../SUFST/Src/can_repeater.c \
  C:/Users/Adam/OneDrive\ -\ University\ of\ Southampton/Documents/SUFST/can-repeater-firmware/can-repeater-firmware/SUFST/Inc/can_repeater.h \
- ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h \
+ C:/Users/Adam/OneDrive\ -\ University\ of\ Southampton/Documents/SUFST/can-repeater-firmware/can-repeater-firmware/SUFST/Inc/can_config.h \
+ ../Core/Inc/main.h ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h \
  ../Core/Inc/stm32f1xx_hal_conf.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h \
@@ -24,10 +25,10 @@ SUFST/Src/can_repeater.o: ../SUFST/Src/can_repeater.c \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_usart.h \
- C:/Users/Adam/OneDrive\ -\ University\ of\ Southampton/Documents/SUFST/can-repeater-firmware/can-repeater-firmware/SUFST/Inc/can_config.h \
- ../Core/Inc/main.h \
  C:/Users/Adam/OneDrive\ -\ University\ of\ Southampton/Documents/SUFST/can-repeater-firmware/can-repeater-firmware/SUFST/Inc/can_config.h
 C:/Users/Adam/OneDrive\ -\ University\ of\ Southampton/Documents/SUFST/can-repeater-firmware/can-repeater-firmware/SUFST/Inc/can_repeater.h:
+C:/Users/Adam/OneDrive\ -\ University\ of\ Southampton/Documents/SUFST/can-repeater-firmware/can-repeater-firmware/SUFST/Inc/can_config.h:
+../Core/Inc/main.h:
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:
 ../Core/Inc/stm32f1xx_hal_conf.h:
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h:
@@ -52,6 +53,4 @@ C:/Users/Adam/OneDrive\ -\ University\ of\ Southampton/Documents/SUFST/can-repea
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h:
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h:
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_usart.h:
-C:/Users/Adam/OneDrive\ -\ University\ of\ Southampton/Documents/SUFST/can-repeater-firmware/can-repeater-firmware/SUFST/Inc/can_config.h:
-../Core/Inc/main.h:
 C:/Users/Adam/OneDrive\ -\ University\ of\ Southampton/Documents/SUFST/can-repeater-firmware/can-repeater-firmware/SUFST/Inc/can_config.h:

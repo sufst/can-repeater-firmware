@@ -4,5 +4,5 @@
 ../SUFST/Src/can_repeater.c:64:12:Queue_Pop	24	static
 ../SUFST/Src/can_repeater.c:71:12:Should_Forward	24	static
 ../SUFST/Src/can_repeater.c:95:6:Repeater_Init	48	static
-../SUFST/Src/can_repeater.c:139:6:Repeater_Process	80	static
-../SUFST/Src/can_repeater.c:180:6:HAL_CAN_RxFifo0MsgPendingCallback	56	static
+../SUFST/Src/can_repeater.c:143:6:Repeater_Process	80	static
+../SUFST/Src/can_repeater.c:184:6:HAL_CAN_RxFifo0MsgPendingCallback	56	static

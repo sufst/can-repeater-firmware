@@ -6,6 +6,7 @@
  */
 
 #include "can_repeater.h"
+#include "main.h"
 #include "can_config.h"
 #include <string.h>
 
@@ -58,6 +59,9 @@ static void Queue_Push(CAN_Queue_t *q, CAN_RxHeaderTypeDef *header, uint8_t *dat
         }
 
         q->head = next_head;
+    } else {
+    	// BUFFER FULL
+    	HAL_GPIO_WritePin(ERROR_LED_GPIO_Port, ERROR_LED_Pin, GPIO_PIN_SET);
     }
 }
 
@@ -96,6 +100,21 @@ void Repeater_Init(void) {
 	//Sort CAN IDs for filtering
 	qsort(LIST_1_TO_2, CNT_1_TO_2, sizeof(uint32_t), compare_ids);
 	qsort(LIST_2_TO_1, CNT_2_TO_1, sizeof(uint32_t), compare_ids);
+
+
+	//Flash LEDS to confirm running code
+	HAL_GPIO_WritePin(STAT1_LED_GPIO_Port, STAT1_LED_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(STAT2_LED_GPIO_Port, STAT2_LED_Pin, GPIO_PIN_SET);
+	HAL_Delay(100);
+	HAL_GPIO_WritePin(STAT1_LED_GPIO_Port, STAT1_LED_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(STAT2_LED_GPIO_Port, STAT2_LED_Pin, GPIO_PIN_RESET);
+	HAL_Delay(100);
+	HAL_GPIO_WritePin(STAT1_LED_GPIO_Port, STAT1_LED_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(STAT2_LED_GPIO_Port, STAT2_LED_Pin, GPIO_PIN_SET);
+	HAL_Delay(100);
+	HAL_GPIO_WritePin(STAT1_LED_GPIO_Port, STAT1_LED_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(STAT2_LED_GPIO_Port, STAT2_LED_Pin, GPIO_PIN_RESET);
+
 
 	CAN_FilterTypeDef sFilterConfig;
     // Configure CAN1 Filter
@@ -147,35 +166,36 @@ void Repeater_Process(void) {
 
     // Process messages from CAN1 to CAN2
 
-    if(Queue_Pop(&q_can1_to_can2, &msg)) {
-        // Prepare TX header
-        txHeader.StdId = msg.header.StdId;
-        txHeader.ExtId = msg.header.ExtId;
-        txHeader.RTR = msg.header.RTR;
-        txHeader.IDE = msg.header.IDE;
-        txHeader.DLC = msg.header.DLC;
-        txHeader.TransmitGlobalTime = DISABLE;
+    if (HAL_CAN_GetTxMailboxesFreeLevel(&hcan2) > 0) {
+        if(Queue_Pop(&q_can1_to_can2, &msg)) {
+			// Prepare TX header
+			txHeader.StdId = msg.header.StdId;
+			txHeader.ExtId = msg.header.ExtId;
+			txHeader.RTR = msg.header.RTR;
+			txHeader.IDE = msg.header.IDE;
+			txHeader.DLC = msg.header.DLC;
+			txHeader.TransmitGlobalTime = DISABLE;
 
-        // Transmit on CAN2
-        if (HAL_CAN_GetTxMailboxesFreeLevel(&hcan2) > 0) {
-            HAL_CAN_AddTxMessage(&hcan2, &txHeader, msg.data, &txMailbox);
+			// Transmit on CAN2
+			HAL_CAN_AddTxMessage(&hcan2, &txHeader, msg.data, &txMailbox);
         }
     }
 
     // Process messages from CAN2 to CAN1
-    if(Queue_Pop(&q_can2_to_can1, &msg)) {
-        // Prepare TX header
-        txHeader.StdId = msg.header.StdId;
-        txHeader.ExtId = msg.header.ExtId;
-        txHeader.RTR = msg.header.RTR;
-        txHeader.IDE = msg.header.IDE;
-        txHeader.DLC = msg.header.DLC;
-        txHeader.TransmitGlobalTime = DISABLE;
+    if (HAL_CAN_GetTxMailboxesFreeLevel(&hcan1) > 0) {
+        if(Queue_Pop(&q_can2_to_can1, &msg)) {
+			// Prepare TX header
+			txHeader.StdId = msg.header.StdId;
+			txHeader.ExtId = msg.header.ExtId;
+			txHeader.RTR = msg.header.RTR;
+			txHeader.IDE = msg.header.IDE;
+			txHeader.DLC = msg.header.DLC;
+			txHeader.TransmitGlobalTime = DISABLE;
 
-        // Transmit on CAN1
-        if (HAL_CAN_GetTxMailboxesFreeLevel(&hcan1) > 0) {
-            HAL_CAN_AddTxMessage(&hcan1, &txHeader, msg.data, &txMailbox);
+			// Transmit on CAN1
+			HAL_CAN_AddTxMessage(&hcan1, &txHeader, msg.data, &txMailbox);
         }
+
     }
 }
 
@@ -187,6 +207,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan) {
 
     if (hcan->Instance == CAN1) {
         // Message received on CAN1
+    	HAL_GPIO_TogglePin(STAT1_LED_GPIO_Port, STAT1_LED_Pin);
         if (HAL_CAN_GetRxMessage(hcan, CAN_RX_FIFO0, &rxHeader, rxData) == HAL_OK) {
             if (Should_Forward(&rxHeader, 1)) {
                 Queue_Push(&q_can1_to_can2, &rxHeader, rxData, 1);
@@ -194,6 +215,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan) {
         }
     } else if (hcan->Instance == CAN2) {
         // Message received on CAN2
+    	HAL_GPIO_TogglePin(STAT2_LED_GPIO_Port, STAT2_LED_Pin);
         if (HAL_CAN_GetRxMessage(hcan, CAN_RX_FIFO0, &rxHeader, rxData) == HAL_OK) {
             if (Should_Forward(&rxHeader, 2)) {
                 Queue_Push(&q_can2_to_can1, &rxHeader, rxData, 2);

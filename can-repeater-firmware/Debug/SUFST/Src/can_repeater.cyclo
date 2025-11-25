@@ -4,5 +4,5 @@
 ../SUFST/Src/can_repeater.c:64:12:Queue_Pop	2
 ../SUFST/Src/can_repeater.c:71:12:Should_Forward	3
 ../SUFST/Src/can_repeater.c:95:6:Repeater_Init	7
-../SUFST/Src/can_repeater.c:139:6:Repeater_Process	5
-../SUFST/Src/can_repeater.c:180:6:HAL_CAN_RxFifo0MsgPendingCallback	7
+../SUFST/Src/can_repeater.c:143:6:Repeater_Process	5
+../SUFST/Src/can_repeater.c:184:6:HAL_CAN_RxFifo0MsgPendingCallback	7

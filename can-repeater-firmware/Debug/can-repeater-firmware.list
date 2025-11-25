@@ -5,47 +5,47 @@ Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
   0 .isr_vector   000001e4  08000000  08000000  00001000  2**0
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  1 .text         000024f4  080001e4  080001e4  000011e4  2**2
+  1 .text         0000283c  080001e4  080001e4  000011e4  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .rodata       00000038  080026d8  080026d8  000036d8  2**2
+  2 .rodata       00000038  08002a20  08002a20  00003a20  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  3 .ARM.extab    00000000  08002710  08002710  0000400c  2**0
+  3 .ARM.extab    00000000  08002a58  08002a58  0000401c  2**0
                   CONTENTS, READONLY
-  4 .ARM          00000008  08002710  08002710  00003710  2**2
+  4 .ARM          00000008  08002a58  08002a58  00003a58  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  5 .preinit_array 00000000  08002718  08002718  0000400c  2**0
+  5 .preinit_array 00000000  08002a60  08002a60  0000401c  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  6 .init_array   00000004  08002718  08002718  00003718  2**2
+  6 .init_array   00000004  08002a60  08002a60  00003a60  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  7 .fini_array   00000004  0800271c  0800271c  0000371c  2**2
+  7 .fini_array   00000004  08002a64  08002a64  00003a64  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  8 .data         0000000c  20000000  08002720  00004000  2**2
+  8 .data         0000001c  20000000  08002a68  00004000  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  9 .bss          000014c0  2000000c  0800272c  0000400c  2**2
+  9 .bss          000014c0  2000001c  08002a84  0000401c  2**2
                   ALLOC
- 10 ._user_heap_stack 00000604  200014cc  0800272c  000044cc  2**0
+ 10 ._user_heap_stack 00000604  200014dc  08002a84  000044dc  2**0
                   ALLOC
- 11 .ARM.attributes 00000029  00000000  00000000  0000400c  2**0
+ 11 .ARM.attributes 00000029  00000000  00000000  0000401c  2**0
                   CONTENTS, READONLY
- 12 .debug_info   0000661d  00000000  00000000  00004035  2**0
+ 12 .debug_info   0000666a  00000000  00000000  00004045  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 13 .debug_abbrev 000019aa  00000000  00000000  0000a652  2**0
+ 13 .debug_abbrev 000019ea  00000000  00000000  0000a6af  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_aranges 00000758  00000000  00000000  0000c000  2**3
+ 14 .debug_aranges 00000758  00000000  00000000  0000c0a0  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_rnglists 00000567  00000000  00000000  0000c758  2**0
+ 15 .debug_rnglists 00000567  00000000  00000000  0000c7f8  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_macro  0001d9fd  00000000  00000000  0000ccbf  2**0
+ 16 .debug_macro  0001e29c  00000000  00000000  0000cd5f  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   0000978d  00000000  00000000  0002a6bc  2**0
+ 17 .debug_line   00009908  00000000  00000000  0002affb  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    000ac9e7  00000000  00000000  00033e49  2**0
+ 18 .debug_str    000acad2  00000000  00000000  00034903  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000043  00000000  00000000  000e0830  2**0
+ 19 .comment      00000043  00000000  00000000  000e13d5  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00001c2c  00000000  00000000  000e0874  2**2
+ 20 .debug_frame  00001ca4  00000000  00000000  000e1418  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_line_str 0000009d  00000000  00000000  000e24a0  2**0
+ 21 .debug_line_str 0000009d  00000000  00000000  000e30bc  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -62,9 +62,9 @@ Disassembly of section .text:
  80001f6:	2301      	movs	r3, #1
  80001f8:	7023      	strb	r3, [r4, #0]
  80001fa:	bd10      	pop	{r4, pc}
- 80001fc:	2000000c 	.word	0x2000000c
+ 80001fc:	2000001c 	.word	0x2000001c
  8000200:	00000000 	.word	0x00000000
- 8000204:	080026c0 	.word	0x080026c0
+ 8000204:	08002a08 	.word	0x08002a08
 
 08000208 <frame_dummy>:
  8000208:	b508      	push	{r3, lr}
@@ -75,8 +75,8 @@ Disassembly of section .text:
  8000212:	f3af 8000 	nop.w
  8000216:	bd08      	pop	{r3, pc}
  8000218:	00000000 	.word	0x00000000
- 800021c:	20000010 	.word	0x20000010
- 8000220:	080026c0 	.word	0x080026c0
+ 800021c:	20000020 	.word	0x20000020
+ 8000220:	08002a08 	.word	0x08002a08
 
 08000224 <__aeabi_uldivmod>:
  8000224:	b953      	cbnz	r3, 800023c <__aeabi_uldivmod+0x18>
@@ -476,7 +476,7 @@ void MX_CAN1_Init(void)
  80005da:	bf00      	nop
  80005dc:	bd80      	pop	{r7, pc}
  80005de:	bf00      	nop
- 80005e0:	20000028 	.word	0x20000028
+ 80005e0:	20000038 	.word	0x20000038
  80005e4:	40006400 	.word	0x40006400
 
 080005e8 <MX_CAN2_Init>:
@@ -583,7 +583,7 @@ void MX_CAN2_Init(void)
  800066a:	bf00      	nop
  800066c:	bd80      	pop	{r7, pc}
  800066e:	bf00      	nop
- 8000670:	20000050 	.word	0x20000050
+ 8000670:	20000060 	.word	0x20000060
  8000674:	40006800 	.word	0x40006800
 
 08000678 <HAL_CAN_MspInit>:
@@ -791,7 +791,7 @@ void HAL_CAN_MspInit(CAN_HandleTypeDef* canHandle)
  80007d0:	46bd      	mov	sp, r7
  80007d2:	bd80      	pop	{r7, pc}
  80007d4:	40006400 	.word	0x40006400
- 80007d8:	20000078 	.word	0x20000078
+ 80007d8:	20000088 	.word	0x20000088
  80007dc:	40021000 	.word	0x40021000
  80007e0:	40010c00 	.word	0x40010c00
  80007e4:	40010000 	.word	0x40010000
@@ -924,14 +924,14 @@ int main(void)
  8000898:	f000 f8ae 	bl	80009f8 <MX_USART1_Init>
   /* USER CODE BEGIN 2 */
   Repeater_Init();
- 800089c:	f001 fe30 	bl	8002500 <Repeater_Init>
+ 800089c:	f001 fe3e 	bl	800251c <Repeater_Init>
   while (1)
   {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
     Repeater_Process();
- 80008a0:	f001 fe86 	bl	80025b0 <Repeater_Process>
+ 80008a0:	f001 fea6 	bl	80025f0 <Repeater_Process>
  80008a4:	e7fc      	b.n	80008a0 <main+0x20>
 	...
 
@@ -950,7 +950,7 @@ void SystemClock_Config(void)
  80008b2:	2238      	movs	r2, #56	@ 0x38
  80008b4:	2100      	movs	r1, #0
  80008b6:	4618      	mov	r0, r3
- 80008b8:	f001 fed6 	bl	8002668 <memset>
+ 80008b8:	f002 f879 	bl	80029ae <memset>
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
  80008bc:	1d3b      	adds	r3, r7, #4
  80008be:	2200      	movs	r2, #0
@@ -1374,7 +1374,7 @@ void MX_USART1_Init(void)
 }
  8000a44:	bf00      	nop
  8000a46:	bd80      	pop	{r7, pc}
- 8000a48:	2000007c 	.word	0x2000007c
+ 8000a48:	2000008c 	.word	0x2000008c
  8000a4c:	40013800 	.word	0x40013800
 
 08000a50 <HAL_USART_MspInit>:
@@ -1544,7 +1544,7 @@ LoopFillZerobss:
 
 /* Call static constructors */
   bl __libc_init_array
- 8000b12:	f001 fdb1 	bl	8002678 <__libc_init_array>
+ 8000b12:	f001 ff55 	bl	80029c0 <__libc_init_array>
 /* Call the application's entry point.*/
   bl main
  8000b16:	f7ff feb3 	bl	8000880 <main>
@@ -1553,13 +1553,13 @@ LoopFillZerobss:
   ldr r0, =_sdata
  8000b1c:	20000000 	.word	0x20000000
   ldr r1, =_edata
- 8000b20:	2000000c 	.word	0x2000000c
+ 8000b20:	2000001c 	.word	0x2000001c
   ldr r2, =_sidata
- 8000b24:	08002720 	.word	0x08002720
+ 8000b24:	08002a68 	.word	0x08002a68
   ldr r2, =_sbss
- 8000b28:	2000000c 	.word	0x2000000c
+ 8000b28:	2000001c 	.word	0x2000001c
   ldr r4, =_ebss
- 8000b2c:	200014cc 	.word	0x200014cc
+ 8000b2c:	200014dc 	.word	0x200014dc
 
 08000b30 <ADC1_2_IRQHandler>:
  * @retval None
@@ -1707,7 +1707,7 @@ __weak void HAL_IncTick(void)
  8000bd8:	bc80      	pop	{r7}
  8000bda:	4770      	bx	lr
  8000bdc:	20000008 	.word	0x20000008
- 8000be0:	200000c0 	.word	0x200000c0
+ 8000be0:	200000d0 	.word	0x200000d0
 
 08000be4 <HAL_GetTick>:
   * @note  This function is declared as __weak to be overwritten in case of other
@@ -1726,7 +1726,7 @@ __weak uint32_t HAL_GetTick(void)
  8000bee:	46bd      	mov	sp, r7
  8000bf0:	bc80      	pop	{r7}
  8000bf2:	4770      	bx	lr
- 8000bf4:	200000c0 	.word	0x200000c0
+ 8000bf4:	200000d0 	.word	0x200000d0
 
 08000bf8 <HAL_CAN_Init>:
   * @param  hcan pointer to a CAN_HandleTypeDef structure that contains
@@ -5256,7 +5256,7 @@ if (((RCC_ClkInitStruct->ClockType) & RCC_CLOCKTYPE_PCLK1) == RCC_CLOCKTYPE_PCLK
  8001f72:	bf00      	nop
  8001f74:	40022000 	.word	0x40022000
  8001f78:	40021000 	.word	0x40021000
- 8001f7c:	080026d8 	.word	0x080026d8
+ 8001f7c:	08002a20 	.word	0x08002a20
  8001f80:	20000000 	.word	0x20000000
  8001f84:	20000004 	.word	0x20000004
 
@@ -5527,8 +5527,8 @@ uint32_t HAL_RCC_GetSysClockFreq(void)
  8002158:	e8bd 8fb0 	ldmia.w	sp!, {r4, r5, r7, r8, r9, sl, fp, pc}
  800215c:	40021000 	.word	0x40021000
  8002160:	007a1200 	.word	0x007a1200
- 8002164:	080026f0 	.word	0x080026f0
- 8002168:	08002700 	.word	0x08002700
+ 8002164:	08002a38 	.word	0x08002a38
+ 8002168:	08002a48 	.word	0x08002a48
  800216c:	003d0900 	.word	0x003d0900
 
 08002170 <HAL_RCC_GetHCLKFreq>:
@@ -5574,7 +5574,7 @@ uint32_t HAL_RCC_GetPCLK1Freq(void)
  80021a0:	4618      	mov	r0, r3
  80021a2:	bd80      	pop	{r7, pc}
  80021a4:	40021000 	.word	0x40021000
- 80021a8:	080026e8 	.word	0x080026e8
+ 80021a8:	08002a30 	.word	0x08002a30
 
 080021ac <HAL_RCC_GetPCLK2Freq>:
   * @note   Each time PCLK2 changes, this function must be called to update the
@@ -5600,7 +5600,7 @@ uint32_t HAL_RCC_GetPCLK2Freq(void)
  80021c8:	4618      	mov	r0, r3
  80021ca:	bd80      	pop	{r7, pc}
  80021cc:	40021000 	.word	0x40021000
- 80021d0:	080026e8 	.word	0x080026e8
+ 80021d0:	08002a30 	.word	0x08002a30
 
 080021d4 <RCC_Delay>:
   * @brief  This function provides delay (in milliseconds) based on CPU cycles method.
@@ -6030,362 +6030,735 @@ static void USART_SetConfig(USART_HandleTypeDef *husart)
  800247c:	40013800 	.word	0x40013800
  8002480:	51eb851f 	.word	0x51eb851f
 
-08002484 <Queue_Pop>:
+08002484 <compare_ids>:
+
+static uint32_t LIST_2_TO_1[] = FILTER_IDS_CAN2_TO_CAN1;
+static const size_t CNT_2_TO_1 = sizeof(LIST_2_TO_1) / sizeof(LIST_2_TO_1[0]);
+
+// Compare function for qsort
+static int compare_ids(const void * a, const void * b) {
+ 8002484:	b480      	push	{r7}
+ 8002486:	b083      	sub	sp, #12
+ 8002488:	af00      	add	r7, sp, #0
+ 800248a:	6078      	str	r0, [r7, #4]
+ 800248c:	6039      	str	r1, [r7, #0]
+    return ( *(uint32_t*)a - *(uint32_t*)b );
+ 800248e:	687b      	ldr	r3, [r7, #4]
+ 8002490:	681a      	ldr	r2, [r3, #0]
+ 8002492:	683b      	ldr	r3, [r7, #0]
+ 8002494:	681b      	ldr	r3, [r3, #0]
+ 8002496:	1ad3      	subs	r3, r2, r3
+}
+ 8002498:	4618      	mov	r0, r3
+ 800249a:	370c      	adds	r7, #12
+ 800249c:	46bd      	mov	sp, r7
+ 800249e:	bc80      	pop	{r7}
+ 80024a0:	4770      	bx	lr
+
+080024a2 <Queue_Pop>:
 
         q->head = next_head;
     }
 }
 
 static int Queue_Pop(CAN_Queue_t *q, CAN_Message_t *msg) {
- 8002484:	b4b0      	push	{r4, r5, r7}
- 8002486:	b083      	sub	sp, #12
- 8002488:	af00      	add	r7, sp, #0
- 800248a:	6078      	str	r0, [r7, #4]
- 800248c:	6039      	str	r1, [r7, #0]
+ 80024a2:	b4b0      	push	{r4, r5, r7}
+ 80024a4:	b083      	sub	sp, #12
+ 80024a6:	af00      	add	r7, sp, #0
+ 80024a8:	6078      	str	r0, [r7, #4]
+ 80024aa:	6039      	str	r1, [r7, #0]
     if (q->head == q->tail) return 0;
- 800248e:	687b      	ldr	r3, [r7, #4]
- 8002490:	f8b3 3a00 	ldrh.w	r3, [r3, #2560]	@ 0xa00
- 8002494:	b29a      	uxth	r2, r3
- 8002496:	687b      	ldr	r3, [r7, #4]
- 8002498:	f8b3 3a02 	ldrh.w	r3, [r3, #2562]	@ 0xa02
- 800249c:	b29b      	uxth	r3, r3
- 800249e:	429a      	cmp	r2, r3
- 80024a0:	d101      	bne.n	80024a6 <Queue_Pop+0x22>
- 80024a2:	2300      	movs	r3, #0
- 80024a4:	e026      	b.n	80024f4 <Queue_Pop+0x70>
+ 80024ac:	687b      	ldr	r3, [r7, #4]
+ 80024ae:	f8b3 3a00 	ldrh.w	r3, [r3, #2560]	@ 0xa00
+ 80024b2:	b29a      	uxth	r2, r3
+ 80024b4:	687b      	ldr	r3, [r7, #4]
+ 80024b6:	f8b3 3a02 	ldrh.w	r3, [r3, #2562]	@ 0xa02
+ 80024ba:	b29b      	uxth	r3, r3
+ 80024bc:	429a      	cmp	r2, r3
+ 80024be:	d101      	bne.n	80024c4 <Queue_Pop+0x22>
+ 80024c0:	2300      	movs	r3, #0
+ 80024c2:	e026      	b.n	8002512 <Queue_Pop+0x70>
     *msg = q->buffer[q->tail];
- 80024a6:	687b      	ldr	r3, [r7, #4]
- 80024a8:	f8b3 3a02 	ldrh.w	r3, [r3, #2562]	@ 0xa02
- 80024ac:	b29b      	uxth	r3, r3
- 80024ae:	4619      	mov	r1, r3
- 80024b0:	6838      	ldr	r0, [r7, #0]
- 80024b2:	687a      	ldr	r2, [r7, #4]
- 80024b4:	460b      	mov	r3, r1
- 80024b6:	009b      	lsls	r3, r3, #2
- 80024b8:	440b      	add	r3, r1
- 80024ba:	00db      	lsls	r3, r3, #3
- 80024bc:	4413      	add	r3, r2
- 80024be:	4604      	mov	r4, r0
- 80024c0:	461d      	mov	r5, r3
- 80024c2:	cd0f      	ldmia	r5!, {r0, r1, r2, r3}
- 80024c4:	c40f      	stmia	r4!, {r0, r1, r2, r3}
- 80024c6:	cd0f      	ldmia	r5!, {r0, r1, r2, r3}
- 80024c8:	c40f      	stmia	r4!, {r0, r1, r2, r3}
- 80024ca:	e895 0003 	ldmia.w	r5, {r0, r1}
- 80024ce:	e884 0003 	stmia.w	r4, {r0, r1}
+ 80024c4:	687b      	ldr	r3, [r7, #4]
+ 80024c6:	f8b3 3a02 	ldrh.w	r3, [r3, #2562]	@ 0xa02
+ 80024ca:	b29b      	uxth	r3, r3
+ 80024cc:	4619      	mov	r1, r3
+ 80024ce:	6838      	ldr	r0, [r7, #0]
+ 80024d0:	687a      	ldr	r2, [r7, #4]
+ 80024d2:	460b      	mov	r3, r1
+ 80024d4:	009b      	lsls	r3, r3, #2
+ 80024d6:	440b      	add	r3, r1
+ 80024d8:	00db      	lsls	r3, r3, #3
+ 80024da:	4413      	add	r3, r2
+ 80024dc:	4604      	mov	r4, r0
+ 80024de:	461d      	mov	r5, r3
+ 80024e0:	cd0f      	ldmia	r5!, {r0, r1, r2, r3}
+ 80024e2:	c40f      	stmia	r4!, {r0, r1, r2, r3}
+ 80024e4:	cd0f      	ldmia	r5!, {r0, r1, r2, r3}
+ 80024e6:	c40f      	stmia	r4!, {r0, r1, r2, r3}
+ 80024e8:	e895 0003 	ldmia.w	r5, {r0, r1}
+ 80024ec:	e884 0003 	stmia.w	r4, {r0, r1}
     q->tail = (q->tail + 1) % CAN_QUEUE_SIZE;
- 80024d2:	687b      	ldr	r3, [r7, #4]
- 80024d4:	f8b3 3a02 	ldrh.w	r3, [r3, #2562]	@ 0xa02
- 80024d8:	b29b      	uxth	r3, r3
- 80024da:	3301      	adds	r3, #1
- 80024dc:	425a      	negs	r2, r3
- 80024de:	f003 033f 	and.w	r3, r3, #63	@ 0x3f
- 80024e2:	f002 023f 	and.w	r2, r2, #63	@ 0x3f
- 80024e6:	bf58      	it	pl
- 80024e8:	4253      	negpl	r3, r2
- 80024ea:	b29a      	uxth	r2, r3
- 80024ec:	687b      	ldr	r3, [r7, #4]
- 80024ee:	f8a3 2a02 	strh.w	r2, [r3, #2562]	@ 0xa02
+ 80024f0:	687b      	ldr	r3, [r7, #4]
+ 80024f2:	f8b3 3a02 	ldrh.w	r3, [r3, #2562]	@ 0xa02
+ 80024f6:	b29b      	uxth	r3, r3
+ 80024f8:	3301      	adds	r3, #1
+ 80024fa:	425a      	negs	r2, r3
+ 80024fc:	f003 033f 	and.w	r3, r3, #63	@ 0x3f
+ 8002500:	f002 023f 	and.w	r2, r2, #63	@ 0x3f
+ 8002504:	bf58      	it	pl
+ 8002506:	4253      	negpl	r3, r2
+ 8002508:	b29a      	uxth	r2, r3
+ 800250a:	687b      	ldr	r3, [r7, #4]
+ 800250c:	f8a3 2a02 	strh.w	r2, [r3, #2562]	@ 0xa02
     return 1;
- 80024f2:	2301      	movs	r3, #1
+ 8002510:	2301      	movs	r3, #1
 }
- 80024f4:	4618      	mov	r0, r3
- 80024f6:	370c      	adds	r7, #12
- 80024f8:	46bd      	mov	sp, r7
- 80024fa:	bcb0      	pop	{r4, r5, r7}
- 80024fc:	4770      	bx	lr
-	...
+ 8002512:	4618      	mov	r0, r3
+ 8002514:	370c      	adds	r7, #12
+ 8002516:	46bd      	mov	sp, r7
+ 8002518:	bcb0      	pop	{r4, r5, r7}
+ 800251a:	4770      	bx	lr
 
-08002500 <Repeater_Init>:
+0800251c <Repeater_Init>:
     #else
         return !found;
 	#endif
 }
 
 void Repeater_Init(void) {
- 8002500:	b580      	push	{r7, lr}
- 8002502:	b08a      	sub	sp, #40	@ 0x28
- 8002504:	af00      	add	r7, sp, #0
+ 800251c:	b580      	push	{r7, lr}
+ 800251e:	b08a      	sub	sp, #40	@ 0x28
+ 8002520:	af00      	add	r7, sp, #0
+	//Sort CAN IDs for filtering
+	qsort(LIST_1_TO_2, CNT_1_TO_2, sizeof(uint32_t), compare_ids);
+ 8002522:	2102      	movs	r1, #2
+ 8002524:	4b2d      	ldr	r3, [pc, #180]	@ (80025dc <Repeater_Init+0xc0>)
+ 8002526:	2204      	movs	r2, #4
+ 8002528:	482d      	ldr	r0, [pc, #180]	@ (80025e0 <Repeater_Init+0xc4>)
+ 800252a:	f000 f8f6 	bl	800271a <qsort>
+	qsort(LIST_2_TO_1, CNT_2_TO_1, sizeof(uint32_t), compare_ids);
+ 800252e:	2102      	movs	r1, #2
+ 8002530:	4b2a      	ldr	r3, [pc, #168]	@ (80025dc <Repeater_Init+0xc0>)
+ 8002532:	2204      	movs	r2, #4
+ 8002534:	482b      	ldr	r0, [pc, #172]	@ (80025e4 <Repeater_Init+0xc8>)
+ 8002536:	f000 f8f0 	bl	800271a <qsort>
+
 	CAN_FilterTypeDef sFilterConfig;
     // Configure CAN1 Filter
     sFilterConfig.FilterBank = 0;
- 8002506:	2300      	movs	r3, #0
- 8002508:	617b      	str	r3, [r7, #20]
+ 800253a:	2300      	movs	r3, #0
+ 800253c:	617b      	str	r3, [r7, #20]
     sFilterConfig.FilterMode = CAN_FILTERMODE_IDMASK;
- 800250a:	2300      	movs	r3, #0
- 800250c:	61bb      	str	r3, [r7, #24]
+ 800253e:	2300      	movs	r3, #0
+ 8002540:	61bb      	str	r3, [r7, #24]
     sFilterConfig.FilterScale = CAN_FILTERSCALE_32BIT;
- 800250e:	2301      	movs	r3, #1
- 8002510:	61fb      	str	r3, [r7, #28]
+ 8002542:	2301      	movs	r3, #1
+ 8002544:	61fb      	str	r3, [r7, #28]
     sFilterConfig.FilterIdHigh = 0x0000;
- 8002512:	2300      	movs	r3, #0
- 8002514:	603b      	str	r3, [r7, #0]
+ 8002546:	2300      	movs	r3, #0
+ 8002548:	603b      	str	r3, [r7, #0]
     sFilterConfig.FilterIdLow = 0x0000;
- 8002516:	2300      	movs	r3, #0
- 8002518:	607b      	str	r3, [r7, #4]
+ 800254a:	2300      	movs	r3, #0
+ 800254c:	607b      	str	r3, [r7, #4]
     sFilterConfig.FilterMaskIdHigh = 0x0000;
- 800251a:	2300      	movs	r3, #0
- 800251c:	60bb      	str	r3, [r7, #8]
+ 800254e:	2300      	movs	r3, #0
+ 8002550:	60bb      	str	r3, [r7, #8]
     sFilterConfig.FilterMaskIdLow = 0x0000;
- 800251e:	2300      	movs	r3, #0
- 8002520:	60fb      	str	r3, [r7, #12]
+ 8002552:	2300      	movs	r3, #0
+ 8002554:	60fb      	str	r3, [r7, #12]
     sFilterConfig.FilterFIFOAssignment = CAN_FILTER_FIFO0;
- 8002522:	2300      	movs	r3, #0
- 8002524:	613b      	str	r3, [r7, #16]
+ 8002556:	2300      	movs	r3, #0
+ 8002558:	613b      	str	r3, [r7, #16]
     sFilterConfig.FilterActivation = ENABLE;
- 8002526:	2301      	movs	r3, #1
- 8002528:	623b      	str	r3, [r7, #32]
+ 800255a:	2301      	movs	r3, #1
+ 800255c:	623b      	str	r3, [r7, #32]
     sFilterConfig.SlaveStartFilterBank = 14; // Start of CAN2 filters
- 800252a:	230e      	movs	r3, #14
- 800252c:	627b      	str	r3, [r7, #36]	@ 0x24
+ 800255e:	230e      	movs	r3, #14
+ 8002560:	627b      	str	r3, [r7, #36]	@ 0x24
 
     if(HAL_CAN_ConfigFilter(&hcan1, &sFilterConfig) != HAL_OK) {
- 800252e:	463b      	mov	r3, r7
- 8002530:	4619      	mov	r1, r3
- 8002532:	481d      	ldr	r0, [pc, #116]	@ (80025a8 <Repeater_Init+0xa8>)
- 8002534:	f7fe fc5c 	bl	8000df0 <HAL_CAN_ConfigFilter>
- 8002538:	4603      	mov	r3, r0
- 800253a:	2b00      	cmp	r3, #0
- 800253c:	d001      	beq.n	8002542 <Repeater_Init+0x42>
+ 8002562:	463b      	mov	r3, r7
+ 8002564:	4619      	mov	r1, r3
+ 8002566:	4820      	ldr	r0, [pc, #128]	@ (80025e8 <Repeater_Init+0xcc>)
+ 8002568:	f7fe fc42 	bl	8000df0 <HAL_CAN_ConfigFilter>
+ 800256c:	4603      	mov	r3, r0
+ 800256e:	2b00      	cmp	r3, #0
+ 8002570:	d001      	beq.n	8002576 <Repeater_Init+0x5a>
         // Filter configuration Error
         Error_Handler();
- 800253e:	f7fe f9f5 	bl	800092c <Error_Handler>
+ 8002572:	f7fe f9db 	bl	800092c <Error_Handler>
     }
 
     // Configure CAN2 Filter
     sFilterConfig.FilterBank = 14;
- 8002542:	230e      	movs	r3, #14
- 8002544:	617b      	str	r3, [r7, #20]
+ 8002576:	230e      	movs	r3, #14
+ 8002578:	617b      	str	r3, [r7, #20]
 
     if(HAL_CAN_ConfigFilter(&hcan2, &sFilterConfig) != HAL_OK) {
- 8002546:	463b      	mov	r3, r7
- 8002548:	4619      	mov	r1, r3
- 800254a:	4818      	ldr	r0, [pc, #96]	@ (80025ac <Repeater_Init+0xac>)
- 800254c:	f7fe fc50 	bl	8000df0 <HAL_CAN_ConfigFilter>
- 8002550:	4603      	mov	r3, r0
- 8002552:	2b00      	cmp	r3, #0
- 8002554:	d001      	beq.n	800255a <Repeater_Init+0x5a>
+ 800257a:	463b      	mov	r3, r7
+ 800257c:	4619      	mov	r1, r3
+ 800257e:	481b      	ldr	r0, [pc, #108]	@ (80025ec <Repeater_Init+0xd0>)
+ 8002580:	f7fe fc36 	bl	8000df0 <HAL_CAN_ConfigFilter>
+ 8002584:	4603      	mov	r3, r0
+ 8002586:	2b00      	cmp	r3, #0
+ 8002588:	d001      	beq.n	800258e <Repeater_Init+0x72>
         // Filter configuration Error
         Error_Handler();
- 8002556:	f7fe f9e9 	bl	800092c <Error_Handler>
+ 800258a:	f7fe f9cf 	bl	800092c <Error_Handler>
     }
 
     // Start CAN peripherals
     if (HAL_CAN_Start(&hcan1) != HAL_OK) {
- 800255a:	4813      	ldr	r0, [pc, #76]	@ (80025a8 <Repeater_Init+0xa8>)
- 800255c:	f7fe fd28 	bl	8000fb0 <HAL_CAN_Start>
- 8002560:	4603      	mov	r3, r0
- 8002562:	2b00      	cmp	r3, #0
- 8002564:	d001      	beq.n	800256a <Repeater_Init+0x6a>
+ 800258e:	4816      	ldr	r0, [pc, #88]	@ (80025e8 <Repeater_Init+0xcc>)
+ 8002590:	f7fe fd0e 	bl	8000fb0 <HAL_CAN_Start>
+ 8002594:	4603      	mov	r3, r0
+ 8002596:	2b00      	cmp	r3, #0
+ 8002598:	d001      	beq.n	800259e <Repeater_Init+0x82>
         Error_Handler();
- 8002566:	f7fe f9e1 	bl	800092c <Error_Handler>
+ 800259a:	f7fe f9c7 	bl	800092c <Error_Handler>
     }
     if (HAL_CAN_Start(&hcan2) != HAL_OK) {
- 800256a:	4810      	ldr	r0, [pc, #64]	@ (80025ac <Repeater_Init+0xac>)
- 800256c:	f7fe fd20 	bl	8000fb0 <HAL_CAN_Start>
- 8002570:	4603      	mov	r3, r0
- 8002572:	2b00      	cmp	r3, #0
- 8002574:	d001      	beq.n	800257a <Repeater_Init+0x7a>
+ 800259e:	4813      	ldr	r0, [pc, #76]	@ (80025ec <Repeater_Init+0xd0>)
+ 80025a0:	f7fe fd06 	bl	8000fb0 <HAL_CAN_Start>
+ 80025a4:	4603      	mov	r3, r0
+ 80025a6:	2b00      	cmp	r3, #0
+ 80025a8:	d001      	beq.n	80025ae <Repeater_Init+0x92>
         Error_Handler();
- 8002576:	f7fe f9d9 	bl	800092c <Error_Handler>
+ 80025aa:	f7fe f9bf 	bl	800092c <Error_Handler>
     }
 
     // Activate CAN RX notification
     if (HAL_CAN_ActivateNotification(&hcan1, CAN_IT_RX_FIFO0_MSG_PENDING) != HAL_OK) {
- 800257a:	2102      	movs	r1, #2
- 800257c:	480a      	ldr	r0, [pc, #40]	@ (80025a8 <Repeater_Init+0xa8>)
- 800257e:	f7fe fe5e 	bl	800123e <HAL_CAN_ActivateNotification>
- 8002582:	4603      	mov	r3, r0
- 8002584:	2b00      	cmp	r3, #0
- 8002586:	d001      	beq.n	800258c <Repeater_Init+0x8c>
+ 80025ae:	2102      	movs	r1, #2
+ 80025b0:	480d      	ldr	r0, [pc, #52]	@ (80025e8 <Repeater_Init+0xcc>)
+ 80025b2:	f7fe fe44 	bl	800123e <HAL_CAN_ActivateNotification>
+ 80025b6:	4603      	mov	r3, r0
+ 80025b8:	2b00      	cmp	r3, #0
+ 80025ba:	d001      	beq.n	80025c0 <Repeater_Init+0xa4>
         Error_Handler();
- 8002588:	f7fe f9d0 	bl	800092c <Error_Handler>
+ 80025bc:	f7fe f9b6 	bl	800092c <Error_Handler>
     }
     if (HAL_CAN_ActivateNotification(&hcan2, CAN_IT_RX_FIFO0_MSG_PENDING) != HAL_OK) {
- 800258c:	2102      	movs	r1, #2
- 800258e:	4807      	ldr	r0, [pc, #28]	@ (80025ac <Repeater_Init+0xac>)
- 8002590:	f7fe fe55 	bl	800123e <HAL_CAN_ActivateNotification>
- 8002594:	4603      	mov	r3, r0
- 8002596:	2b00      	cmp	r3, #0
- 8002598:	d001      	beq.n	800259e <Repeater_Init+0x9e>
+ 80025c0:	2102      	movs	r1, #2
+ 80025c2:	480a      	ldr	r0, [pc, #40]	@ (80025ec <Repeater_Init+0xd0>)
+ 80025c4:	f7fe fe3b 	bl	800123e <HAL_CAN_ActivateNotification>
+ 80025c8:	4603      	mov	r3, r0
+ 80025ca:	2b00      	cmp	r3, #0
+ 80025cc:	d001      	beq.n	80025d2 <Repeater_Init+0xb6>
         Error_Handler();
- 800259a:	f7fe f9c7 	bl	800092c <Error_Handler>
+ 80025ce:	f7fe f9ad 	bl	800092c <Error_Handler>
     }
 }
- 800259e:	bf00      	nop
- 80025a0:	3728      	adds	r7, #40	@ 0x28
- 80025a2:	46bd      	mov	sp, r7
- 80025a4:	bd80      	pop	{r7, pc}
- 80025a6:	bf00      	nop
- 80025a8:	20000028 	.word	0x20000028
- 80025ac:	20000050 	.word	0x20000050
+ 80025d2:	bf00      	nop
+ 80025d4:	3728      	adds	r7, #40	@ 0x28
+ 80025d6:	46bd      	mov	sp, r7
+ 80025d8:	bd80      	pop	{r7, pc}
+ 80025da:	bf00      	nop
+ 80025dc:	08002485 	.word	0x08002485
+ 80025e0:	2000000c 	.word	0x2000000c
+ 80025e4:	20000014 	.word	0x20000014
+ 80025e8:	20000038 	.word	0x20000038
+ 80025ec:	20000060 	.word	0x20000060
 
-080025b0 <Repeater_Process>:
+080025f0 <Repeater_Process>:
 
 void Repeater_Process(void) {
- 80025b0:	b580      	push	{r7, lr}
- 80025b2:	b092      	sub	sp, #72	@ 0x48
- 80025b4:	af00      	add	r7, sp, #0
+ 80025f0:	b580      	push	{r7, lr}
+ 80025f2:	b092      	sub	sp, #72	@ 0x48
+ 80025f4:	af00      	add	r7, sp, #0
     CAN_TxHeaderTypeDef txHeader;
     uint32_t txMailbox;
 
     // Process messages from CAN1 to CAN2
 
     if(Queue_Pop(&q_can1_to_can2, &msg)) {
- 80025b6:	f107 0320 	add.w	r3, r7, #32
- 80025ba:	4619      	mov	r1, r3
- 80025bc:	4826      	ldr	r0, [pc, #152]	@ (8002658 <Repeater_Process+0xa8>)
- 80025be:	f7ff ff61 	bl	8002484 <Queue_Pop>
- 80025c2:	4603      	mov	r3, r0
- 80025c4:	2b00      	cmp	r3, #0
- 80025c6:	d01c      	beq.n	8002602 <Repeater_Process+0x52>
+ 80025f6:	f107 0320 	add.w	r3, r7, #32
+ 80025fa:	4619      	mov	r1, r3
+ 80025fc:	4826      	ldr	r0, [pc, #152]	@ (8002698 <Repeater_Process+0xa8>)
+ 80025fe:	f7ff ff50 	bl	80024a2 <Queue_Pop>
+ 8002602:	4603      	mov	r3, r0
+ 8002604:	2b00      	cmp	r3, #0
+ 8002606:	d01c      	beq.n	8002642 <Repeater_Process+0x52>
         // Prepare TX header
         txHeader.StdId = msg.header.StdId;
- 80025c8:	6a3b      	ldr	r3, [r7, #32]
- 80025ca:	60bb      	str	r3, [r7, #8]
+ 8002608:	6a3b      	ldr	r3, [r7, #32]
+ 800260a:	60bb      	str	r3, [r7, #8]
         txHeader.ExtId = msg.header.ExtId;
- 80025cc:	6a7b      	ldr	r3, [r7, #36]	@ 0x24
- 80025ce:	60fb      	str	r3, [r7, #12]
+ 800260c:	6a7b      	ldr	r3, [r7, #36]	@ 0x24
+ 800260e:	60fb      	str	r3, [r7, #12]
         txHeader.RTR = msg.header.RTR;
- 80025d0:	6afb      	ldr	r3, [r7, #44]	@ 0x2c
- 80025d2:	617b      	str	r3, [r7, #20]
+ 8002610:	6afb      	ldr	r3, [r7, #44]	@ 0x2c
+ 8002612:	617b      	str	r3, [r7, #20]
         txHeader.IDE = msg.header.IDE;
- 80025d4:	6abb      	ldr	r3, [r7, #40]	@ 0x28
- 80025d6:	613b      	str	r3, [r7, #16]
+ 8002614:	6abb      	ldr	r3, [r7, #40]	@ 0x28
+ 8002616:	613b      	str	r3, [r7, #16]
         txHeader.DLC = msg.header.DLC;
- 80025d8:	6b3b      	ldr	r3, [r7, #48]	@ 0x30
- 80025da:	61bb      	str	r3, [r7, #24]
+ 8002618:	6b3b      	ldr	r3, [r7, #48]	@ 0x30
+ 800261a:	61bb      	str	r3, [r7, #24]
         txHeader.TransmitGlobalTime = DISABLE;
- 80025dc:	2300      	movs	r3, #0
- 80025de:	773b      	strb	r3, [r7, #28]
+ 800261c:	2300      	movs	r3, #0
+ 800261e:	773b      	strb	r3, [r7, #28]
 
         // Transmit on CAN2
         if (HAL_CAN_GetTxMailboxesFreeLevel(&hcan2) > 0) {
- 80025e0:	481e      	ldr	r0, [pc, #120]	@ (800265c <Repeater_Process+0xac>)
- 80025e2:	f7fe fdf8 	bl	80011d6 <HAL_CAN_GetTxMailboxesFreeLevel>
- 80025e6:	4603      	mov	r3, r0
- 80025e8:	2b00      	cmp	r3, #0
- 80025ea:	d00a      	beq.n	8002602 <Repeater_Process+0x52>
+ 8002620:	481e      	ldr	r0, [pc, #120]	@ (800269c <Repeater_Process+0xac>)
+ 8002622:	f7fe fdd8 	bl	80011d6 <HAL_CAN_GetTxMailboxesFreeLevel>
+ 8002626:	4603      	mov	r3, r0
+ 8002628:	2b00      	cmp	r3, #0
+ 800262a:	d00a      	beq.n	8002642 <Repeater_Process+0x52>
             HAL_CAN_AddTxMessage(&hcan2, &txHeader, msg.data, &txMailbox);
- 80025ec:	1d38      	adds	r0, r7, #4
- 80025ee:	f107 0320 	add.w	r3, r7, #32
- 80025f2:	f103 021c 	add.w	r2, r3, #28
- 80025f6:	f107 0108 	add.w	r1, r7, #8
- 80025fa:	4603      	mov	r3, r0
- 80025fc:	4817      	ldr	r0, [pc, #92]	@ (800265c <Repeater_Process+0xac>)
- 80025fe:	f7fe fd1b 	bl	8001038 <HAL_CAN_AddTxMessage>
+ 800262c:	1d38      	adds	r0, r7, #4
+ 800262e:	f107 0320 	add.w	r3, r7, #32
+ 8002632:	f103 021c 	add.w	r2, r3, #28
+ 8002636:	f107 0108 	add.w	r1, r7, #8
+ 800263a:	4603      	mov	r3, r0
+ 800263c:	4817      	ldr	r0, [pc, #92]	@ (800269c <Repeater_Process+0xac>)
+ 800263e:	f7fe fcfb 	bl	8001038 <HAL_CAN_AddTxMessage>
         }
     }
 
     // Process messages from CAN2 to CAN1
     if(Queue_Pop(&q_can2_to_can1, &msg)) {
- 8002602:	f107 0320 	add.w	r3, r7, #32
- 8002606:	4619      	mov	r1, r3
- 8002608:	4815      	ldr	r0, [pc, #84]	@ (8002660 <Repeater_Process+0xb0>)
- 800260a:	f7ff ff3b 	bl	8002484 <Queue_Pop>
- 800260e:	4603      	mov	r3, r0
- 8002610:	2b00      	cmp	r3, #0
- 8002612:	d01c      	beq.n	800264e <Repeater_Process+0x9e>
+ 8002642:	f107 0320 	add.w	r3, r7, #32
+ 8002646:	4619      	mov	r1, r3
+ 8002648:	4815      	ldr	r0, [pc, #84]	@ (80026a0 <Repeater_Process+0xb0>)
+ 800264a:	f7ff ff2a 	bl	80024a2 <Queue_Pop>
+ 800264e:	4603      	mov	r3, r0
+ 8002650:	2b00      	cmp	r3, #0
+ 8002652:	d01c      	beq.n	800268e <Repeater_Process+0x9e>
         // Prepare TX header
         txHeader.StdId = msg.header.StdId;
- 8002614:	6a3b      	ldr	r3, [r7, #32]
- 8002616:	60bb      	str	r3, [r7, #8]
+ 8002654:	6a3b      	ldr	r3, [r7, #32]
+ 8002656:	60bb      	str	r3, [r7, #8]
         txHeader.ExtId = msg.header.ExtId;
- 8002618:	6a7b      	ldr	r3, [r7, #36]	@ 0x24
- 800261a:	60fb      	str	r3, [r7, #12]
+ 8002658:	6a7b      	ldr	r3, [r7, #36]	@ 0x24
+ 800265a:	60fb      	str	r3, [r7, #12]
         txHeader.RTR = msg.header.RTR;
- 800261c:	6afb      	ldr	r3, [r7, #44]	@ 0x2c
- 800261e:	617b      	str	r3, [r7, #20]
+ 800265c:	6afb      	ldr	r3, [r7, #44]	@ 0x2c
+ 800265e:	617b      	str	r3, [r7, #20]
         txHeader.IDE = msg.header.IDE;
- 8002620:	6abb      	ldr	r3, [r7, #40]	@ 0x28
- 8002622:	613b      	str	r3, [r7, #16]
+ 8002660:	6abb      	ldr	r3, [r7, #40]	@ 0x28
+ 8002662:	613b      	str	r3, [r7, #16]
         txHeader.DLC = msg.header.DLC;
- 8002624:	6b3b      	ldr	r3, [r7, #48]	@ 0x30
- 8002626:	61bb      	str	r3, [r7, #24]
+ 8002664:	6b3b      	ldr	r3, [r7, #48]	@ 0x30
+ 8002666:	61bb      	str	r3, [r7, #24]
         txHeader.TransmitGlobalTime = DISABLE;
- 8002628:	2300      	movs	r3, #0
- 800262a:	773b      	strb	r3, [r7, #28]
+ 8002668:	2300      	movs	r3, #0
+ 800266a:	773b      	strb	r3, [r7, #28]
 
         // Transmit on CAN1
         if (HAL_CAN_GetTxMailboxesFreeLevel(&hcan1) > 0) {
- 800262c:	480d      	ldr	r0, [pc, #52]	@ (8002664 <Repeater_Process+0xb4>)
- 800262e:	f7fe fdd2 	bl	80011d6 <HAL_CAN_GetTxMailboxesFreeLevel>
- 8002632:	4603      	mov	r3, r0
- 8002634:	2b00      	cmp	r3, #0
- 8002636:	d00a      	beq.n	800264e <Repeater_Process+0x9e>
+ 800266c:	480d      	ldr	r0, [pc, #52]	@ (80026a4 <Repeater_Process+0xb4>)
+ 800266e:	f7fe fdb2 	bl	80011d6 <HAL_CAN_GetTxMailboxesFreeLevel>
+ 8002672:	4603      	mov	r3, r0
+ 8002674:	2b00      	cmp	r3, #0
+ 8002676:	d00a      	beq.n	800268e <Repeater_Process+0x9e>
             HAL_CAN_AddTxMessage(&hcan1, &txHeader, msg.data, &txMailbox);
- 8002638:	1d38      	adds	r0, r7, #4
- 800263a:	f107 0320 	add.w	r3, r7, #32
- 800263e:	f103 021c 	add.w	r2, r3, #28
- 8002642:	f107 0108 	add.w	r1, r7, #8
- 8002646:	4603      	mov	r3, r0
- 8002648:	4806      	ldr	r0, [pc, #24]	@ (8002664 <Repeater_Process+0xb4>)
- 800264a:	f7fe fcf5 	bl	8001038 <HAL_CAN_AddTxMessage>
+ 8002678:	1d38      	adds	r0, r7, #4
+ 800267a:	f107 0320 	add.w	r3, r7, #32
+ 800267e:	f103 021c 	add.w	r2, r3, #28
+ 8002682:	f107 0108 	add.w	r1, r7, #8
+ 8002686:	4603      	mov	r3, r0
+ 8002688:	4806      	ldr	r0, [pc, #24]	@ (80026a4 <Repeater_Process+0xb4>)
+ 800268a:	f7fe fcd5 	bl	8001038 <HAL_CAN_AddTxMessage>
         }
     }
 }
- 800264e:	bf00      	nop
- 8002650:	3748      	adds	r7, #72	@ 0x48
- 8002652:	46bd      	mov	sp, r7
- 8002654:	bd80      	pop	{r7, pc}
- 8002656:	bf00      	nop
- 8002658:	200000c4 	.word	0x200000c4
- 800265c:	20000050 	.word	0x20000050
- 8002660:	20000ac8 	.word	0x20000ac8
- 8002664:	20000028 	.word	0x20000028
+ 800268e:	bf00      	nop
+ 8002690:	3748      	adds	r7, #72	@ 0x48
+ 8002692:	46bd      	mov	sp, r7
+ 8002694:	bd80      	pop	{r7, pc}
+ 8002696:	bf00      	nop
+ 8002698:	200000d4 	.word	0x200000d4
+ 800269c:	20000060 	.word	0x20000060
+ 80026a0:	20000ad8 	.word	0x20000ad8
+ 80026a4:	20000038 	.word	0x20000038
 
-08002668 <memset>:
- 8002668:	4603      	mov	r3, r0
- 800266a:	4402      	add	r2, r0
- 800266c:	4293      	cmp	r3, r2
- 800266e:	d100      	bne.n	8002672 <memset+0xa>
- 8002670:	4770      	bx	lr
- 8002672:	f803 1b01 	strb.w	r1, [r3], #1
- 8002676:	e7f9      	b.n	800266c <memset+0x4>
+080026a8 <swapfunc>:
+ 80026a8:	2b02      	cmp	r3, #2
+ 80026aa:	b510      	push	{r4, lr}
+ 80026ac:	d00a      	beq.n	80026c4 <swapfunc+0x1c>
+ 80026ae:	0892      	lsrs	r2, r2, #2
+ 80026b0:	6803      	ldr	r3, [r0, #0]
+ 80026b2:	680c      	ldr	r4, [r1, #0]
+ 80026b4:	3a01      	subs	r2, #1
+ 80026b6:	2a00      	cmp	r2, #0
+ 80026b8:	f840 4b04 	str.w	r4, [r0], #4
+ 80026bc:	f841 3b04 	str.w	r3, [r1], #4
+ 80026c0:	dcf6      	bgt.n	80026b0 <swapfunc+0x8>
+ 80026c2:	bd10      	pop	{r4, pc}
+ 80026c4:	4402      	add	r2, r0
+ 80026c6:	780c      	ldrb	r4, [r1, #0]
+ 80026c8:	7803      	ldrb	r3, [r0, #0]
+ 80026ca:	f800 4b01 	strb.w	r4, [r0], #1
+ 80026ce:	f801 3b01 	strb.w	r3, [r1], #1
+ 80026d2:	1a13      	subs	r3, r2, r0
+ 80026d4:	2b00      	cmp	r3, #0
+ 80026d6:	dcf6      	bgt.n	80026c6 <swapfunc+0x1e>
+ 80026d8:	e7f3      	b.n	80026c2 <swapfunc+0x1a>
 
-08002678 <__libc_init_array>:
- 8002678:	b570      	push	{r4, r5, r6, lr}
- 800267a:	2600      	movs	r6, #0
- 800267c:	4d0c      	ldr	r5, [pc, #48]	@ (80026b0 <__libc_init_array+0x38>)
- 800267e:	4c0d      	ldr	r4, [pc, #52]	@ (80026b4 <__libc_init_array+0x3c>)
- 8002680:	1b64      	subs	r4, r4, r5
- 8002682:	10a4      	asrs	r4, r4, #2
- 8002684:	42a6      	cmp	r6, r4
- 8002686:	d109      	bne.n	800269c <__libc_init_array+0x24>
- 8002688:	f000 f81a 	bl	80026c0 <_init>
- 800268c:	2600      	movs	r6, #0
- 800268e:	4d0a      	ldr	r5, [pc, #40]	@ (80026b8 <__libc_init_array+0x40>)
- 8002690:	4c0a      	ldr	r4, [pc, #40]	@ (80026bc <__libc_init_array+0x44>)
- 8002692:	1b64      	subs	r4, r4, r5
- 8002694:	10a4      	asrs	r4, r4, #2
- 8002696:	42a6      	cmp	r6, r4
- 8002698:	d105      	bne.n	80026a6 <__libc_init_array+0x2e>
- 800269a:	bd70      	pop	{r4, r5, r6, pc}
- 800269c:	f855 3b04 	ldr.w	r3, [r5], #4
- 80026a0:	4798      	blx	r3
- 80026a2:	3601      	adds	r6, #1
- 80026a4:	e7ee      	b.n	8002684 <__libc_init_array+0xc>
- 80026a6:	f855 3b04 	ldr.w	r3, [r5], #4
- 80026aa:	4798      	blx	r3
- 80026ac:	3601      	adds	r6, #1
- 80026ae:	e7f2      	b.n	8002696 <__libc_init_array+0x1e>
- 80026b0:	08002718 	.word	0x08002718
- 80026b4:	08002718 	.word	0x08002718
- 80026b8:	08002718 	.word	0x08002718
- 80026bc:	0800271c 	.word	0x0800271c
+080026da <med3.constprop.0>:
+ 80026da:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 80026dc:	460f      	mov	r7, r1
+ 80026de:	4616      	mov	r6, r2
+ 80026e0:	4604      	mov	r4, r0
+ 80026e2:	461d      	mov	r5, r3
+ 80026e4:	4798      	blx	r3
+ 80026e6:	2800      	cmp	r0, #0
+ 80026e8:	4631      	mov	r1, r6
+ 80026ea:	4638      	mov	r0, r7
+ 80026ec:	da0c      	bge.n	8002708 <med3.constprop.0+0x2e>
+ 80026ee:	47a8      	blx	r5
+ 80026f0:	2800      	cmp	r0, #0
+ 80026f2:	da02      	bge.n	80026fa <med3.constprop.0+0x20>
+ 80026f4:	463c      	mov	r4, r7
+ 80026f6:	4620      	mov	r0, r4
+ 80026f8:	bdf8      	pop	{r3, r4, r5, r6, r7, pc}
+ 80026fa:	4631      	mov	r1, r6
+ 80026fc:	4620      	mov	r0, r4
+ 80026fe:	47a8      	blx	r5
+ 8002700:	2800      	cmp	r0, #0
+ 8002702:	daf8      	bge.n	80026f6 <med3.constprop.0+0x1c>
+ 8002704:	4634      	mov	r4, r6
+ 8002706:	e7f6      	b.n	80026f6 <med3.constprop.0+0x1c>
+ 8002708:	47a8      	blx	r5
+ 800270a:	2800      	cmp	r0, #0
+ 800270c:	dcf2      	bgt.n	80026f4 <med3.constprop.0+0x1a>
+ 800270e:	4631      	mov	r1, r6
+ 8002710:	4620      	mov	r0, r4
+ 8002712:	47a8      	blx	r5
+ 8002714:	2800      	cmp	r0, #0
+ 8002716:	daf5      	bge.n	8002704 <med3.constprop.0+0x2a>
+ 8002718:	e7ed      	b.n	80026f6 <med3.constprop.0+0x1c>
 
-080026c0 <_init>:
- 80026c0:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
- 80026c2:	bf00      	nop
- 80026c4:	bcf8      	pop	{r3, r4, r5, r6, r7}
- 80026c6:	bc08      	pop	{r3}
- 80026c8:	469e      	mov	lr, r3
- 80026ca:	4770      	bx	lr
+0800271a <qsort>:
+ 800271a:	e92d 4ff0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
+ 800271e:	b095      	sub	sp, #84	@ 0x54
+ 8002720:	9300      	str	r3, [sp, #0]
+ 8002722:	ea40 0302 	orr.w	r3, r0, r2
+ 8002726:	079b      	lsls	r3, r3, #30
+ 8002728:	4607      	mov	r7, r0
+ 800272a:	4615      	mov	r5, r2
+ 800272c:	d119      	bne.n	8002762 <qsort+0x48>
+ 800272e:	f1b2 0804 	subs.w	r8, r2, #4
+ 8002732:	bf18      	it	ne
+ 8002734:	f04f 0801 	movne.w	r8, #1
+ 8002738:	2300      	movs	r3, #0
+ 800273a:	9301      	str	r3, [sp, #4]
+ 800273c:	fb05 f401 	mul.w	r4, r5, r1
+ 8002740:	2906      	cmp	r1, #6
+ 8002742:	eb07 0304 	add.w	r3, r7, r4
+ 8002746:	eb07 0b05 	add.w	fp, r7, r5
+ 800274a:	9302      	str	r3, [sp, #8]
+ 800274c:	d828      	bhi.n	80027a0 <qsort+0x86>
+ 800274e:	9b02      	ldr	r3, [sp, #8]
+ 8002750:	459b      	cmp	fp, r3
+ 8002752:	d310      	bcc.n	8002776 <qsort+0x5c>
+ 8002754:	9b01      	ldr	r3, [sp, #4]
+ 8002756:	2b00      	cmp	r3, #0
+ 8002758:	f040 8118 	bne.w	800298c <qsort+0x272>
+ 800275c:	b015      	add	sp, #84	@ 0x54
+ 800275e:	e8bd 8ff0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, pc}
+ 8002762:	f04f 0802 	mov.w	r8, #2
+ 8002766:	e7e7      	b.n	8002738 <qsort+0x1e>
+ 8002768:	4643      	mov	r3, r8
+ 800276a:	462a      	mov	r2, r5
+ 800276c:	4631      	mov	r1, r6
+ 800276e:	4620      	mov	r0, r4
+ 8002770:	f7ff ff9a 	bl	80026a8 <swapfunc>
+ 8002774:	e00f      	b.n	8002796 <qsort+0x7c>
+ 8002776:	465c      	mov	r4, fp
+ 8002778:	e00e      	b.n	8002798 <qsort+0x7e>
+ 800277a:	1b66      	subs	r6, r4, r5
+ 800277c:	4621      	mov	r1, r4
+ 800277e:	4630      	mov	r0, r6
+ 8002780:	9b00      	ldr	r3, [sp, #0]
+ 8002782:	4798      	blx	r3
+ 8002784:	2800      	cmp	r0, #0
+ 8002786:	dd09      	ble.n	800279c <qsort+0x82>
+ 8002788:	f1b8 0f00 	cmp.w	r8, #0
+ 800278c:	d1ec      	bne.n	8002768 <qsort+0x4e>
+ 800278e:	6823      	ldr	r3, [r4, #0]
+ 8002790:	6832      	ldr	r2, [r6, #0]
+ 8002792:	6022      	str	r2, [r4, #0]
+ 8002794:	6033      	str	r3, [r6, #0]
+ 8002796:	4634      	mov	r4, r6
+ 8002798:	42a7      	cmp	r7, r4
+ 800279a:	d3ee      	bcc.n	800277a <qsort+0x60>
+ 800279c:	44ab      	add	fp, r5
+ 800279e:	e7d6      	b.n	800274e <qsort+0x34>
+ 80027a0:	ea4f 0951 	mov.w	r9, r1, lsr #1
+ 80027a4:	1b64      	subs	r4, r4, r5
+ 80027a6:	2907      	cmp	r1, #7
+ 80027a8:	fb05 7909 	mla	r9, r5, r9, r7
+ 80027ac:	443c      	add	r4, r7
+ 80027ae:	d021      	beq.n	80027f4 <qsort+0xda>
+ 80027b0:	2928      	cmp	r1, #40	@ 0x28
+ 80027b2:	d944      	bls.n	800283e <qsort+0x124>
+ 80027b4:	08ce      	lsrs	r6, r1, #3
+ 80027b6:	436e      	muls	r6, r5
+ 80027b8:	9b00      	ldr	r3, [sp, #0]
+ 80027ba:	eb07 0246 	add.w	r2, r7, r6, lsl #1
+ 80027be:	19b9      	adds	r1, r7, r6
+ 80027c0:	4638      	mov	r0, r7
+ 80027c2:	f7ff ff8a 	bl	80026da <med3.constprop.0>
+ 80027c6:	4649      	mov	r1, r9
+ 80027c8:	eb09 0206 	add.w	r2, r9, r6
+ 80027cc:	9b00      	ldr	r3, [sp, #0]
+ 80027ce:	4682      	mov	sl, r0
+ 80027d0:	1b88      	subs	r0, r1, r6
+ 80027d2:	f7ff ff82 	bl	80026da <med3.constprop.0>
+ 80027d6:	4622      	mov	r2, r4
+ 80027d8:	4681      	mov	r9, r0
+ 80027da:	9b00      	ldr	r3, [sp, #0]
+ 80027dc:	1ba1      	subs	r1, r4, r6
+ 80027de:	eba4 0046 	sub.w	r0, r4, r6, lsl #1
+ 80027e2:	f7ff ff7a 	bl	80026da <med3.constprop.0>
+ 80027e6:	4602      	mov	r2, r0
+ 80027e8:	4649      	mov	r1, r9
+ 80027ea:	4650      	mov	r0, sl
+ 80027ec:	9b00      	ldr	r3, [sp, #0]
+ 80027ee:	f7ff ff74 	bl	80026da <med3.constprop.0>
+ 80027f2:	4681      	mov	r9, r0
+ 80027f4:	f1b8 0f00 	cmp.w	r8, #0
+ 80027f8:	d124      	bne.n	8002844 <qsort+0x12a>
+ 80027fa:	683b      	ldr	r3, [r7, #0]
+ 80027fc:	f8d9 2000 	ldr.w	r2, [r9]
+ 8002800:	603a      	str	r2, [r7, #0]
+ 8002802:	f8c9 3000 	str.w	r3, [r9]
+ 8002806:	46d9      	mov	r9, fp
+ 8002808:	46a2      	mov	sl, r4
+ 800280a:	465e      	mov	r6, fp
+ 800280c:	2300      	movs	r3, #0
+ 800280e:	45a1      	cmp	r9, r4
+ 8002810:	d836      	bhi.n	8002880 <qsort+0x166>
+ 8002812:	9303      	str	r3, [sp, #12]
+ 8002814:	4639      	mov	r1, r7
+ 8002816:	9b00      	ldr	r3, [sp, #0]
+ 8002818:	4648      	mov	r0, r9
+ 800281a:	4798      	blx	r3
+ 800281c:	2800      	cmp	r0, #0
+ 800281e:	9b03      	ldr	r3, [sp, #12]
+ 8002820:	dc2c      	bgt.n	800287c <qsort+0x162>
+ 8002822:	d10a      	bne.n	800283a <qsort+0x120>
+ 8002824:	f1b8 0f00 	cmp.w	r8, #0
+ 8002828:	d113      	bne.n	8002852 <qsort+0x138>
+ 800282a:	6833      	ldr	r3, [r6, #0]
+ 800282c:	f8d9 2000 	ldr.w	r2, [r9]
+ 8002830:	6032      	str	r2, [r6, #0]
+ 8002832:	f8c9 3000 	str.w	r3, [r9]
+ 8002836:	442e      	add	r6, r5
+ 8002838:	2301      	movs	r3, #1
+ 800283a:	44a9      	add	r9, r5
+ 800283c:	e7e7      	b.n	800280e <qsort+0xf4>
+ 800283e:	4622      	mov	r2, r4
+ 8002840:	46ba      	mov	sl, r7
+ 8002842:	e7d1      	b.n	80027e8 <qsort+0xce>
+ 8002844:	4643      	mov	r3, r8
+ 8002846:	462a      	mov	r2, r5
+ 8002848:	4649      	mov	r1, r9
+ 800284a:	4638      	mov	r0, r7
+ 800284c:	f7ff ff2c 	bl	80026a8 <swapfunc>
+ 8002850:	e7d9      	b.n	8002806 <qsort+0xec>
+ 8002852:	4643      	mov	r3, r8
+ 8002854:	462a      	mov	r2, r5
+ 8002856:	4649      	mov	r1, r9
+ 8002858:	4630      	mov	r0, r6
+ 800285a:	f7ff ff25 	bl	80026a8 <swapfunc>
+ 800285e:	e7ea      	b.n	8002836 <qsort+0x11c>
+ 8002860:	d10b      	bne.n	800287a <qsort+0x160>
+ 8002862:	f1b8 0f00 	cmp.w	r8, #0
+ 8002866:	d113      	bne.n	8002890 <qsort+0x176>
+ 8002868:	6823      	ldr	r3, [r4, #0]
+ 800286a:	f8da 2000 	ldr.w	r2, [sl]
+ 800286e:	6022      	str	r2, [r4, #0]
+ 8002870:	f8ca 3000 	str.w	r3, [sl]
+ 8002874:	2301      	movs	r3, #1
+ 8002876:	ebaa 0a05 	sub.w	sl, sl, r5
+ 800287a:	1b64      	subs	r4, r4, r5
+ 800287c:	45a1      	cmp	r9, r4
+ 800287e:	d90e      	bls.n	800289e <qsort+0x184>
+ 8002880:	2b00      	cmp	r3, #0
+ 8002882:	d140      	bne.n	8002906 <qsort+0x1ec>
+ 8002884:	9b02      	ldr	r3, [sp, #8]
+ 8002886:	459b      	cmp	fp, r3
+ 8002888:	f4bf af64 	bcs.w	8002754 <qsort+0x3a>
+ 800288c:	465c      	mov	r4, fp
+ 800288e:	e036      	b.n	80028fe <qsort+0x1e4>
+ 8002890:	4643      	mov	r3, r8
+ 8002892:	462a      	mov	r2, r5
+ 8002894:	4651      	mov	r1, sl
+ 8002896:	4620      	mov	r0, r4
+ 8002898:	f7ff ff06 	bl	80026a8 <swapfunc>
+ 800289c:	e7ea      	b.n	8002874 <qsort+0x15a>
+ 800289e:	9303      	str	r3, [sp, #12]
+ 80028a0:	4639      	mov	r1, r7
+ 80028a2:	9b00      	ldr	r3, [sp, #0]
+ 80028a4:	4620      	mov	r0, r4
+ 80028a6:	4798      	blx	r3
+ 80028a8:	2800      	cmp	r0, #0
+ 80028aa:	9b03      	ldr	r3, [sp, #12]
+ 80028ac:	dad8      	bge.n	8002860 <qsort+0x146>
+ 80028ae:	f1b8 0f00 	cmp.w	r8, #0
+ 80028b2:	d107      	bne.n	80028c4 <qsort+0x1aa>
+ 80028b4:	f8d9 3000 	ldr.w	r3, [r9]
+ 80028b8:	6822      	ldr	r2, [r4, #0]
+ 80028ba:	f8c9 2000 	str.w	r2, [r9]
+ 80028be:	6023      	str	r3, [r4, #0]
+ 80028c0:	1b64      	subs	r4, r4, r5
+ 80028c2:	e7b9      	b.n	8002838 <qsort+0x11e>
+ 80028c4:	4643      	mov	r3, r8
+ 80028c6:	462a      	mov	r2, r5
+ 80028c8:	4621      	mov	r1, r4
+ 80028ca:	4648      	mov	r0, r9
+ 80028cc:	f7ff feec 	bl	80026a8 <swapfunc>
+ 80028d0:	e7f6      	b.n	80028c0 <qsort+0x1a6>
+ 80028d2:	4643      	mov	r3, r8
+ 80028d4:	462a      	mov	r2, r5
+ 80028d6:	4631      	mov	r1, r6
+ 80028d8:	4620      	mov	r0, r4
+ 80028da:	f7ff fee5 	bl	80026a8 <swapfunc>
+ 80028de:	e00d      	b.n	80028fc <qsort+0x1e2>
+ 80028e0:	1b66      	subs	r6, r4, r5
+ 80028e2:	4621      	mov	r1, r4
+ 80028e4:	4630      	mov	r0, r6
+ 80028e6:	9b00      	ldr	r3, [sp, #0]
+ 80028e8:	4798      	blx	r3
+ 80028ea:	2800      	cmp	r0, #0
+ 80028ec:	dd09      	ble.n	8002902 <qsort+0x1e8>
+ 80028ee:	f1b8 0f00 	cmp.w	r8, #0
+ 80028f2:	d1ee      	bne.n	80028d2 <qsort+0x1b8>
+ 80028f4:	6823      	ldr	r3, [r4, #0]
+ 80028f6:	6832      	ldr	r2, [r6, #0]
+ 80028f8:	6022      	str	r2, [r4, #0]
+ 80028fa:	6033      	str	r3, [r6, #0]
+ 80028fc:	4634      	mov	r4, r6
+ 80028fe:	42a7      	cmp	r7, r4
+ 8002900:	d3ee      	bcc.n	80028e0 <qsort+0x1c6>
+ 8002902:	44ab      	add	fp, r5
+ 8002904:	e7be      	b.n	8002884 <qsort+0x16a>
+ 8002906:	eba9 0b06 	sub.w	fp, r9, r6
+ 800290a:	1bf2      	subs	r2, r6, r7
+ 800290c:	455a      	cmp	r2, fp
+ 800290e:	bfa8      	it	ge
+ 8002910:	465a      	movge	r2, fp
+ 8002912:	b12a      	cbz	r2, 8002920 <qsort+0x206>
+ 8002914:	4643      	mov	r3, r8
+ 8002916:	4638      	mov	r0, r7
+ 8002918:	eba9 0102 	sub.w	r1, r9, r2
+ 800291c:	f7ff fec4 	bl	80026a8 <swapfunc>
+ 8002920:	9b02      	ldr	r3, [sp, #8]
+ 8002922:	ebaa 0404 	sub.w	r4, sl, r4
+ 8002926:	eba3 020a 	sub.w	r2, r3, sl
+ 800292a:	1b52      	subs	r2, r2, r5
+ 800292c:	42a2      	cmp	r2, r4
+ 800292e:	bf28      	it	cs
+ 8002930:	4622      	movcs	r2, r4
+ 8002932:	b12a      	cbz	r2, 8002940 <qsort+0x226>
+ 8002934:	9902      	ldr	r1, [sp, #8]
+ 8002936:	4643      	mov	r3, r8
+ 8002938:	4648      	mov	r0, r9
+ 800293a:	1a89      	subs	r1, r1, r2
+ 800293c:	f7ff feb4 	bl	80026a8 <swapfunc>
+ 8002940:	9b02      	ldr	r3, [sp, #8]
+ 8002942:	455c      	cmp	r4, fp
+ 8002944:	eba3 0604 	sub.w	r6, r3, r4
+ 8002948:	d805      	bhi.n	8002956 <qsort+0x23c>
+ 800294a:	4623      	mov	r3, r4
+ 800294c:	465c      	mov	r4, fp
+ 800294e:	469b      	mov	fp, r3
+ 8002950:	4633      	mov	r3, r6
+ 8002952:	463e      	mov	r6, r7
+ 8002954:	461f      	mov	r7, r3
+ 8002956:	45ab      	cmp	fp, r5
+ 8002958:	d922      	bls.n	80029a0 <qsort+0x286>
+ 800295a:	9b01      	ldr	r3, [sp, #4]
+ 800295c:	fbbb f1f5 	udiv	r1, fp, r5
+ 8002960:	2b07      	cmp	r3, #7
+ 8002962:	d80c      	bhi.n	800297e <qsort+0x264>
+ 8002964:	fbb4 f4f5 	udiv	r4, r4, r5
+ 8002968:	9a01      	ldr	r2, [sp, #4]
+ 800296a:	ab14      	add	r3, sp, #80	@ 0x50
+ 800296c:	eb03 03c2 	add.w	r3, r3, r2, lsl #3
+ 8002970:	f843 6c40 	str.w	r6, [r3, #-64]
+ 8002974:	f843 4c3c 	str.w	r4, [r3, #-60]
+ 8002978:	4613      	mov	r3, r2
+ 800297a:	3301      	adds	r3, #1
+ 800297c:	e6dd      	b.n	800273a <qsort+0x20>
+ 800297e:	462a      	mov	r2, r5
+ 8002980:	4638      	mov	r0, r7
+ 8002982:	9b00      	ldr	r3, [sp, #0]
+ 8002984:	f7ff fec9 	bl	800271a <qsort>
+ 8002988:	42ac      	cmp	r4, r5
+ 800298a:	d80c      	bhi.n	80029a6 <qsort+0x28c>
+ 800298c:	9b01      	ldr	r3, [sp, #4]
+ 800298e:	3b01      	subs	r3, #1
+ 8002990:	9301      	str	r3, [sp, #4]
+ 8002992:	9a01      	ldr	r2, [sp, #4]
+ 8002994:	ab14      	add	r3, sp, #80	@ 0x50
+ 8002996:	eb03 03c2 	add.w	r3, r3, r2, lsl #3
+ 800299a:	e953 7110 	ldrd	r7, r1, [r3, #-64]	@ 0x40
+ 800299e:	e6cd      	b.n	800273c <qsort+0x22>
+ 80029a0:	42ac      	cmp	r4, r5
+ 80029a2:	f67f aed7 	bls.w	8002754 <qsort+0x3a>
+ 80029a6:	fbb4 f1f5 	udiv	r1, r4, r5
+ 80029aa:	4637      	mov	r7, r6
+ 80029ac:	e6c6      	b.n	800273c <qsort+0x22>
 
-080026cc <_fini>:
- 80026cc:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
- 80026ce:	bf00      	nop
- 80026d0:	bcf8      	pop	{r3, r4, r5, r6, r7}
- 80026d2:	bc08      	pop	{r3}
- 80026d4:	469e      	mov	lr, r3
- 80026d6:	4770      	bx	lr
+080029ae <memset>:
+ 80029ae:	4603      	mov	r3, r0
+ 80029b0:	4402      	add	r2, r0
+ 80029b2:	4293      	cmp	r3, r2
+ 80029b4:	d100      	bne.n	80029b8 <memset+0xa>
+ 80029b6:	4770      	bx	lr
+ 80029b8:	f803 1b01 	strb.w	r1, [r3], #1
+ 80029bc:	e7f9      	b.n	80029b2 <memset+0x4>
+	...
+
+080029c0 <__libc_init_array>:
+ 80029c0:	b570      	push	{r4, r5, r6, lr}
+ 80029c2:	2600      	movs	r6, #0
+ 80029c4:	4d0c      	ldr	r5, [pc, #48]	@ (80029f8 <__libc_init_array+0x38>)
+ 80029c6:	4c0d      	ldr	r4, [pc, #52]	@ (80029fc <__libc_init_array+0x3c>)
+ 80029c8:	1b64      	subs	r4, r4, r5
+ 80029ca:	10a4      	asrs	r4, r4, #2
+ 80029cc:	42a6      	cmp	r6, r4
+ 80029ce:	d109      	bne.n	80029e4 <__libc_init_array+0x24>
+ 80029d0:	f000 f81a 	bl	8002a08 <_init>
+ 80029d4:	2600      	movs	r6, #0
+ 80029d6:	4d0a      	ldr	r5, [pc, #40]	@ (8002a00 <__libc_init_array+0x40>)
+ 80029d8:	4c0a      	ldr	r4, [pc, #40]	@ (8002a04 <__libc_init_array+0x44>)
+ 80029da:	1b64      	subs	r4, r4, r5
+ 80029dc:	10a4      	asrs	r4, r4, #2
+ 80029de:	42a6      	cmp	r6, r4
+ 80029e0:	d105      	bne.n	80029ee <__libc_init_array+0x2e>
+ 80029e2:	bd70      	pop	{r4, r5, r6, pc}
+ 80029e4:	f855 3b04 	ldr.w	r3, [r5], #4
+ 80029e8:	4798      	blx	r3
+ 80029ea:	3601      	adds	r6, #1
+ 80029ec:	e7ee      	b.n	80029cc <__libc_init_array+0xc>
+ 80029ee:	f855 3b04 	ldr.w	r3, [r5], #4
+ 80029f2:	4798      	blx	r3
+ 80029f4:	3601      	adds	r6, #1
+ 80029f6:	e7f2      	b.n	80029de <__libc_init_array+0x1e>
+ 80029f8:	08002a60 	.word	0x08002a60
+ 80029fc:	08002a60 	.word	0x08002a60
+ 8002a00:	08002a60 	.word	0x08002a60
+ 8002a04:	08002a64 	.word	0x08002a64
+
+08002a08 <_init>:
+ 8002a08:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 8002a0a:	bf00      	nop
+ 8002a0c:	bcf8      	pop	{r3, r4, r5, r6, r7}
+ 8002a0e:	bc08      	pop	{r3}
+ 8002a10:	469e      	mov	lr, r3
+ 8002a12:	4770      	bx	lr
+
+08002a14 <_fini>:
+ 8002a14:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 8002a16:	bf00      	nop
+ 8002a18:	bcf8      	pop	{r3, r4, r5, r6, r7}
+ 8002a1a:	bc08      	pop	{r3}
+ 8002a1c:	469e      	mov	lr, r3
+ 8002a1e:	4770      	bx	lr

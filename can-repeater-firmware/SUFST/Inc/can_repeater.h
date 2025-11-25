@@ -8,8 +8,8 @@
 #ifndef INC_CAN_REPEATER_H_
 #define INC_CAN_REPEATER_H_
 
-#include "stm32f1xx_hal.h"
 #include "can_config.h"
+#include <stdlib.h>
 
 // Configuration
 #define CAN_QUEUE_SIZE 64
