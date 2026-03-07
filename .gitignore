@@ -11,3 +11,6 @@ Release/
 *.bin
 *.map
 .mxproject
+
+# Pycharm
+.idea/
