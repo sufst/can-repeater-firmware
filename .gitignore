@@ -1,0 +1,13 @@
+# Python ignores
+venv/
+__pycache__/
+*.pyc
+
+# STM32 CubeIDE ignores
+Debug/
+Release/
+*.o
+*.elf
+*.bin
+*.map
+.mxproject

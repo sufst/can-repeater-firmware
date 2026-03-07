@@ -11,8 +11,13 @@
 #include "can_config.h"
 #include <stdlib.h>
 
-// Configuration
-#define CAN_QUEUE_SIZE 64
+// Buffer config
+#define CAN_QUEUE_SIZE 512 // large buffer to absorb larger bursts when 1Mbps >> 500kbps
+
+// --- Flash Storage Settings ---
+#define MAX_FILTER_IDS      64          // Max IDs per list in RAM
+#define CONFIG_FLASH_ADDR   0x0801F800  // Page 63 (Last page of STM32F105RB 128KB Flash)
+#define CONFIG_MAGIC_WORD   0xABCD1234  // Used to check if Flash contains valid data
 
 // Data Structures
 typedef struct {
