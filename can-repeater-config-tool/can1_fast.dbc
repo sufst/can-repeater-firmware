@@ -1,6 +1,6 @@
 VERSION ""
 
-NS_ :
+NS_ : 
     NS_DESC_
     CM_
     BA_DEF_
@@ -32,15 +32,46 @@ NS_ :
 
 BS_:
 
-BU_: MotorController BMS
+BU_: MotorController BMS CAN_Repeater [cite: 1, 2, 3]
 
-BO_ 256 MotorStatus: 8 MotorController
- SG_ MotorRPM : 0|16@1+ (1,0) [0|10000] "RPM" Vector__XXX
- SG_ MotorTemp : 16|8@1+ (1,-40) [-40|150] "C" Vector__XXX
+BO_ 256 MotorStatus: 8 MotorController [cite: 2]
+ SG_ MotorRPM : 0|16@1+ (1,0) [0|10000] "RPM" Vector__XXX [cite: 2]
+ SG_ MotorTemp : 16|8@1+ (1,-40) [-40|150] "C" Vector__XXX [cite: 2]
 
-BO_ 257 MotorCommands: 8 MotorController
- SG_ TorqueRequest : 0|16@1+ (0.1,0) [0|300] "Nm" Vector__XXX
+BO_ 257 MotorCommands: 8 MotorController [cite: 2]
+ SG_ TorqueRequest : 0|16@1+ (0.1,0) [0|300] "Nm" Vector__XXX [cite: 2]
 
-BO_ 512 BMS_Status: 8 BMS
- SG_ PackVoltage : 0|16@1+ (0.1,0) [0|600] "V" Vector__XXX
- SG_ StateOfCharge : 16|8@1+ (0.5,0) [0|100] "%" Vector__XXX
+BO_ 512 BMS_Status: 8 BMS [cite: 2]
+ SG_ PackVoltage : 0|16@1+ (0.1,0) [0|600] "V" Vector__XXX [cite: 2]
+ SG_ StateOfCharge : 16|8@1+ (0.5,0) [0|100] "%" Vector__XXX [cite: 2]
+
+BO_ 2016 RepeaterStatus: 8 CAN_Repeater
+ SG_ QueueDepth_1to2 : 0|8@1+ (1,0) [0|255] "msgs" Vector__XXX
+ SG_ QueueDepth_2to1 : 8|8@1+ (1,0) [0|255] "msgs" Vector__XXX
+ SG_ CAN1_ErrorReg : 16|8@1+ (1,0) [0|255] "hex" Vector__XXX
+ SG_ CAN2_ErrorReg : 24|8@1+ (1,0) [0|255] "hex" Vector__XXX
+ SG_ Uptime : 32|32@0+ (1,0) [0|4294967295] "s" Vector__XXX
+
+BO_ 2017 RepeaterConfig: 8 Vector__XXX
+ SG_ ConfigCmd : 0|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ ConfigTarget : 8|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ ConfigID : 16|32@0+ (1,0) [0|4294967295] "" Vector__XXX
+
+CM_ BU_ MotorController "The main motor controller unit"; [cite: 2]
+CM_ BU_ BMS "Battery Management System Master"; [cite: 3]
+CM_ BU_ CAN_Repeater "Dual-channel CAN gateway and filter";
+CM_ BO_ 2016 "Heartbeat containing buffer levels and hardware health";
+CM_ BO_ 2017 "Configuration command to modify allow/block lists at runtime";
+
+BA_DEF_ BO_  "GenMsgCycleTime" INT 0 100000; [cite: 4]
+BA_DEF_  "BusType" STRING ; [cite: 4]
+BA_DEF_DEF_  "GenMsgCycleTime" 0; [cite: 4]
+BA_DEF_DEF_  "BusType" "CAN"; [cite: 4]
+
+BA_ "GenMsgCycleTime" BO_ 256 10; [cite: 5]
+BA_ "GenMsgCycleTime" BO_ 257 10; [cite: 5]
+BA_ "GenMsgCycleTime" BO_ 512 100; [cite: 5]
+BA_ "GenMsgCycleTime" BO_ 2016 100;
+
+VAL_ 2017 ConfigCmd 0 "ClearList" 1 "AddID" 2 "RemoveID" ;
+VAL_ 2017 ConfigTarget 0 "CAN1_to_2" 1 "CAN2_to_1" ;
