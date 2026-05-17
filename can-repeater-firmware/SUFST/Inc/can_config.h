@@ -105,9 +105,14 @@
 #define CMD_CLEAR_LIST      0x00
 #define CMD_ADD_ID          0x01
 #define CMD_REMOVE_ID       0x02
+#define CMD_SET_STATE       0x03
 
 #define TARGET_LIST_CAN1_TO_2 0x01
 #define TARGET_LIST_CAN2_TO_1 0x02
+
+// Repeater States
+#define STATE_NORMAL        0x00
+#define STATE_BLOCK_ALL     0x01
 
 // --- Flash Storage Settings ---
 #define MAX_FILTER_IDS      64

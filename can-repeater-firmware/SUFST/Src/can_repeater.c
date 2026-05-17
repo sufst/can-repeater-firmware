@@ -28,6 +28,10 @@ static uint32_t last_error_time = 0;
 static uint32_t last_config_time = 0;
 static uint32_t last_heartbeat_time = 0;
 
+static volatile uint8_t pending_flash_save = 0;
+static uint32_t dropped_messages = 0;
+static uint8_t repeater_state = STATE_NORMAL;
+
 // ======================================================================
 // Flash memory Helper Functions
 // ======================================================================
@@ -102,6 +106,8 @@ static int Id_Is_In_List(uint32_t id, uint32_t *list, size_t count) {
 }
 
 static int Should_Forward(CAN_RxHeaderTypeDef *header, uint8_t source_bus) {
+    if (repeater_state == STATE_BLOCK_ALL) return 0;
+
     uint32_t msg_id = (header->IDE == CAN_ID_STD) ? header->StdId : header->ExtId;
     int found = 0;
 
@@ -117,6 +123,12 @@ static int Should_Forward(CAN_RxHeaderTypeDef *header, uint8_t source_bus) {
 
 static void Process_Config_Message(uint8_t *data) {
     uint8_t cmd = data[0];
+    
+    if (cmd == CMD_SET_STATE) {
+        repeater_state = data[2];
+        return;
+    }
+    
     uint8_t target_list = data[1];
     uint32_t id = ((uint32_t)data[2] << 24) | ((uint32_t)data[3] << 16) | ((uint32_t)data[4] << 8) | data[5];
 
@@ -140,9 +152,7 @@ static void Process_Config_Message(uint8_t *data) {
         }
     }
 
-    qsort(LIST_1_TO_2, CNT_1_TO_2, sizeof(uint32_t), compare_ids);
-    qsort(LIST_2_TO_1, CNT_2_TO_1, sizeof(uint32_t), compare_ids);
-    Save_Config_To_Flash();
+    pending_flash_save = 1;
     last_config_time = HAL_GetTick();
 }
 
@@ -159,6 +169,7 @@ static void Queue_Push(CAN_Queue_t *q, CAN_RxHeaderTypeDef *header, uint8_t *dat
     } else {
     	HAL_GPIO_WritePin(ERROR_LED_GPIO_Port, ERROR_LED_Pin, GPIO_PIN_SET);
     	last_error_time = HAL_GetTick();
+    	dropped_messages++;
     }
 }
 
@@ -318,12 +329,13 @@ static void Broadcast_Heartbeat(void) {
         txData[2] = hcan1.Instance->ESR & 0xFF;
         txData[3] = hcan2.Instance->ESR & 0xFF;
 
-        // Byte 4 to 7: Node Uptime in seconds (Rolling Counter)
+        // Byte 4 & 5: Node Uptime in seconds (Rolling Counter)
+        // Byte 6 & 7: Dropped Messages Counter
         uint32_t uptime_sec = now / 1000;
-        txData[4] = (uptime_sec >> 24) & 0xFF;
-        txData[5] = (uptime_sec >> 16) & 0xFF;
-        txData[6] = (uptime_sec >> 8) & 0xFF;
-        txData[7] = uptime_sec & 0xFF;
+        txData[4] = (uptime_sec >> 8) & 0xFF;
+        txData[5] = uptime_sec & 0xFF;
+        txData[6] = (dropped_messages >> 8) & 0xFF;
+        txData[7] = dropped_messages & 0xFF;
 
         // Broadcast to CAN1 if it's not currently locked up
         if (HAL_CAN_GetTxMailboxesFreeLevel(&hcan1) > 0) {
@@ -342,6 +354,13 @@ void Repeater_Process(void) {
     CAN_Message_t msg;
     CAN_TxHeaderTypeDef txHeader;
     uint32_t txMailbox;
+
+    if (pending_flash_save && ((HAL_GetTick() - last_config_time) > 500)) {
+        qsort(LIST_1_TO_2, CNT_1_TO_2, sizeof(uint32_t), compare_ids);
+        qsort(LIST_2_TO_1, CNT_2_TO_1, sizeof(uint32_t), compare_ids);
+        Save_Config_To_Flash();
+        pending_flash_save = 0;
+    }
 
     if (HAL_CAN_GetTxMailboxesFreeLevel(&hcan2) > 0) {
         if(Queue_Pop(&q_can1_to_can2, &msg)) {
