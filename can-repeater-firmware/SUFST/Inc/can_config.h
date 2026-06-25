@@ -69,31 +69,13 @@
 
 // 1 = Allow list
 // 0 = Block list
-#define REPEATER_MODE_ALLOW_LIST 1
+#define REPEATER_MODE_ALLOW_LIST 0
 
 // List 1: Messages arriving on CAN1, targeted towards CAN2
-#define FILTER_IDS_CAN1_TO_CAN2  { \
-/* e.g.
-    0x123, \
-    0x0A0  \
-
-    backslashes are needed for compiler to ignore new line
-
-*/	0x123, \
-	0x0A0  \
-}
+#define FILTER_IDS_CAN1_TO_CAN2  {}
 
 // List 2: Messages arriving on CAN2, targeted towards CAN1
-#define FILTER_IDS_CAN2_TO_CAN1  { \
-/* e.g.
-    0x123, \
-    0x0A0  \
-
-    backslashes are needed for compiler to ignore new line
-
-*/	0x123, \
-	0x0A0  \
-}
+#define FILTER_IDS_CAN2_TO_CAN1  {}
 
 
 // CAN-Repeater's own messages
