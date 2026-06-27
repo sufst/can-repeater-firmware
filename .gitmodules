@@ -1,0 +1,3 @@
+[submodule "can-repeater-firmware/SUFST/Middlewares/can-defs"]
+	path = can-repeater-firmware/SUFST/Middlewares/can-defs
+	url = https://github.com/sufst/can-defs

@@ -20,11 +20,13 @@ C_INCLUDES = \
 -I  Drivers/CMSIS/Device/ST/STM32F1xx/Include \
 -I  Drivers/CMSIS/Include \
 -I  SUFST/Inc \
+-I  SUFST/Middlewares/can-defs/out \
 -ICore/Inc \
 -IDrivers/STM32F1xx_HAL_Driver/Inc \
 -IDrivers/STM32F1xx_HAL_Driver/Inc/Legacy \
 -IDrivers/CMSIS/Device/ST/STM32F1xx/Include \
--IDrivers/CMSIS/Include
+-IDrivers/CMSIS/Include \
+-ISUFST/Middlewares/can-defs/out
 
 C_SOURCES = \
 Core/Src/main.c \
@@ -48,7 +50,10 @@ Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_exti.c \
 Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_usart.c \
 Core/Src/system_stm32f1xx.c \
 Core/Src/sysmem.c \
-Core/Src/syscalls.c
+Core/Src/syscalls.c \
+SUFST/Src/can_repeater.c \
+SUFST/Middlewares/can-defs/out/can_s.c \
+SUFST/Middlewares/can-defs/out/can_t.c
 
 ASM_SOURCES = Core/Startup/startup_stm32f105rbtx.s
 
