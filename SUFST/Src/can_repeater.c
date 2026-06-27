@@ -1,7 +1,6 @@
 #include "can_repeater.h"
 #include "main.h"
 #include "can_config.h"
-#include <string.h>
 
 extern CAN_HandleTypeDef hcan1;
 extern CAN_HandleTypeDef hcan2;
@@ -10,14 +9,11 @@ static CAN_Queue_t q_can1_to_can2;
 static CAN_Queue_t q_can2_to_can1;
 
 // --- Filter Storage Arrays ---
-static uint32_t INIT_LIST_1_TO_2[] = FILTER_IDS_CAN1_TO_CAN2;
-static uint32_t INIT_LIST_2_TO_1[] = FILTER_IDS_CAN2_TO_CAN1;
+static uint32_t LIST_1_TO_2[] = FILTER_IDS_CAN1_TO_CAN2;
+static size_t CNT_1_TO_2 = sizeof(LIST_1_TO_2) / sizeof(LIST_1_TO_2[0]);
 
-static uint32_t LIST_1_TO_2[MAX_FILTER_IDS];
-static size_t CNT_1_TO_2 = 0;
-
-static uint32_t LIST_2_TO_1[MAX_FILTER_IDS];
-static size_t CNT_2_TO_1 = 0;
+static uint32_t LIST_2_TO_1[] = FILTER_IDS_CAN2_TO_CAN1;
+static size_t CNT_2_TO_1 = sizeof(LIST_2_TO_1) / sizeof(LIST_2_TO_1[0]);
 
 #define LED_RX_PULSE_MS     20   // Standard traffic blips for 20ms
 #define LED_ERR_PULSE_MS    100  // Errors stay on longer (100ms) so you don't miss them
@@ -25,67 +21,9 @@ static size_t CNT_2_TO_1 = 0;
 static uint32_t last_can1_rx_time = 0;
 static uint32_t last_can2_rx_time = 0;
 static uint32_t last_error_time = 0;
-static uint32_t last_config_time = 0;
 static uint32_t last_heartbeat_time = 0;
 
-static volatile uint8_t pending_flash_save = 0;
 static uint32_t dropped_messages = 0;
-static uint8_t repeater_state = STATE_NORMAL;
-
-// ======================================================================
-// Flash memory Helper Functions
-// ======================================================================
-static void Load_Config_From_Flash(void) {
-    uint32_t *flash_ptr = (uint32_t *)CONFIG_FLASH_ADDR;
-
-    if (*flash_ptr == CONFIG_MAGIC_WORD) {
-        flash_ptr++;
-        CNT_1_TO_2 = *flash_ptr++;
-        if (CNT_1_TO_2 > MAX_FILTER_IDS) CNT_1_TO_2 = MAX_FILTER_IDS;
-        for (size_t i = 0; i < CNT_1_TO_2; i++) LIST_1_TO_2[i] = *flash_ptr++;
-
-        CNT_2_TO_1 = *flash_ptr++;
-        if (CNT_2_TO_1 > MAX_FILTER_IDS) CNT_2_TO_1 = MAX_FILTER_IDS;
-        for (size_t i = 0; i < CNT_2_TO_1; i++) LIST_2_TO_1[i] = *flash_ptr++;
-    } else {
-        CNT_1_TO_2 = sizeof(INIT_LIST_1_TO_2) / sizeof(INIT_LIST_1_TO_2[0]);
-        if (CNT_1_TO_2 > MAX_FILTER_IDS) CNT_1_TO_2 = MAX_FILTER_IDS;
-        memcpy(LIST_1_TO_2, INIT_LIST_1_TO_2, CNT_1_TO_2 * sizeof(uint32_t));
-
-        CNT_2_TO_1 = sizeof(INIT_LIST_2_TO_1) / sizeof(INIT_LIST_2_TO_1[0]);
-        if (CNT_2_TO_1 > MAX_FILTER_IDS) CNT_2_TO_1 = MAX_FILTER_IDS;
-        memcpy(LIST_2_TO_1, INIT_LIST_2_TO_1, CNT_2_TO_1 * sizeof(uint32_t));
-    }
-}
-
-static void Save_Config_To_Flash(void) {
-    HAL_FLASH_Unlock();
-    FLASH_EraseInitTypeDef EraseInitStruct;
-    uint32_t PageError = 0;
-
-    EraseInitStruct.TypeErase = FLASH_TYPEERASE_PAGES;
-    EraseInitStruct.PageAddress = CONFIG_FLASH_ADDR;
-    EraseInitStruct.NbPages = 1;
-
-    if (HAL_FLASHEx_Erase(&EraseInitStruct, &PageError) == HAL_OK) {
-        uint32_t current_addr = CONFIG_FLASH_ADDR;
-        HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, current_addr, CONFIG_MAGIC_WORD);
-        current_addr += 4;
-        HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, current_addr, CNT_1_TO_2);
-        current_addr += 4;
-        for (size_t i = 0; i < CNT_1_TO_2; i++) {
-            HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, current_addr, LIST_1_TO_2[i]);
-            current_addr += 4;
-        }
-        HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, current_addr, CNT_2_TO_1);
-        current_addr += 4;
-        for (size_t i = 0; i < CNT_2_TO_1; i++) {
-            HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, current_addr, LIST_2_TO_1[i]);
-            current_addr += 4;
-        }
-    }
-    HAL_FLASH_Lock();
-}
 
 // ======================================================================
 // Filtering and Routing Logic
@@ -106,54 +44,15 @@ static int Id_Is_In_List(uint32_t id, uint32_t *list, size_t count) {
 }
 
 static int Should_Forward(CAN_RxHeaderTypeDef *header, uint8_t source_bus) {
-    if (repeater_state == STATE_BLOCK_ALL) return 0;
-
     uint32_t msg_id = (header->IDE == CAN_ID_STD) ? header->StdId : header->ExtId;
-    int found = 0;
-
-    if (source_bus == 1) found = Id_Is_In_List(msg_id, LIST_1_TO_2, CNT_1_TO_2);
-    else found = Id_Is_In_List(msg_id, LIST_2_TO_1, CNT_2_TO_1);
-
-    #if REPEATER_MODE_ALLOW_LIST == 1
-        return found;
-    #else
-        return !found;
-    #endif
-}
-
-static void Process_Config_Message(uint8_t *data) {
-    uint8_t cmd = data[0];
-    
-    if (cmd == CMD_SET_STATE) {
-        repeater_state = data[2];
-        return;
-    }
-    
-    uint8_t target_list = data[1];
-    uint32_t id = ((uint32_t)data[2] << 24) | ((uint32_t)data[3] << 16) | ((uint32_t)data[4] << 8) | data[5];
-
-    uint32_t *list = (target_list == TARGET_LIST_CAN1_TO_2) ? LIST_1_TO_2 : LIST_2_TO_1;
-    size_t *cnt = (target_list == TARGET_LIST_CAN1_TO_2) ? &CNT_1_TO_2 : &CNT_2_TO_1;
-
-    if (cmd == CMD_CLEAR_LIST) *cnt = 0;
-    else if (cmd == CMD_ADD_ID) {
-        if (*cnt < MAX_FILTER_IDS && !Id_Is_In_List(id, list, *cnt)) {
-            list[*cnt] = id;
-            (*cnt)++;
-        }
-    }
-    else if (cmd == CMD_REMOVE_ID) {
-        for (size_t i = 0; i < *cnt; i++) {
-            if (list[i] == id) {
-                for (size_t j = i; j < *cnt - 1; j++) list[j] = list[j + 1];
-                (*cnt)--;
-                break;
-            }
-        }
-    }
-
-    pending_flash_save = 1;
-    last_config_time = HAL_GetTick();
+    int found = (source_bus == 1)
+        ? Id_Is_In_List(msg_id, LIST_1_TO_2, CNT_1_TO_2)
+        : Id_Is_In_List(msg_id, LIST_2_TO_1, CNT_2_TO_1);
+#if REPEATER_MODE_ALLOW_LIST == 1
+    return found;
+#else
+    return !found;
+#endif
 }
 
 // ======================================================================
@@ -184,8 +83,6 @@ static int Queue_Pop(CAN_Queue_t *q, CAN_Message_t *msg) {
 // Application code
 // ======================================================================
 void Repeater_Init(void) {
-    Load_Config_From_Flash();
-
     qsort(LIST_1_TO_2, CNT_1_TO_2, sizeof(uint32_t), compare_ids);
     qsort(LIST_2_TO_1, CNT_2_TO_1, sizeof(uint32_t), compare_ids);
 
@@ -256,18 +153,6 @@ static void Process_LEDs(void) {
     if ((now - last_can2_rx_time) > LED_RX_PULSE_MS) {
         HAL_GPIO_WritePin(STAT2_LED_GPIO_Port, STAT2_LED_Pin, GPIO_PIN_RESET);
     }
-
-    if ((now - last_config_time) < 1000) {
-            // Alternate LEDs at 5Hz for 1 second
-            if (now % 200 < 100) {
-                HAL_GPIO_WritePin(STAT1_LED_GPIO_Port, STAT1_LED_Pin, GPIO_PIN_SET);
-                HAL_GPIO_WritePin(STAT2_LED_GPIO_Port, STAT2_LED_Pin, GPIO_PIN_RESET);
-            } else {
-                HAL_GPIO_WritePin(STAT1_LED_GPIO_Port, STAT1_LED_Pin, GPIO_PIN_RESET);
-                HAL_GPIO_WritePin(STAT2_LED_GPIO_Port, STAT2_LED_Pin, GPIO_PIN_SET);
-            }
-            return; // Skip normal LED logic while dancing
-        }
 
 	// Hardware & Software Error Handling
 	// Bypass the sticky HAL variable and read the physical hardware Error Status Register (ESR).
@@ -355,13 +240,6 @@ void Repeater_Process(void) {
     CAN_TxHeaderTypeDef txHeader;
     uint32_t txMailbox;
 
-    if (pending_flash_save && ((HAL_GetTick() - last_config_time) > 500)) {
-        qsort(LIST_1_TO_2, CNT_1_TO_2, sizeof(uint32_t), compare_ids);
-        qsort(LIST_2_TO_1, CNT_2_TO_1, sizeof(uint32_t), compare_ids);
-        Save_Config_To_Flash();
-        pending_flash_save = 0;
-    }
-
     if (HAL_CAN_GetTxMailboxesFreeLevel(&hcan2) > 0) {
         if(Queue_Pop(&q_can1_to_can2, &msg)) {
             txHeader.StdId = msg.header.StdId;
@@ -397,10 +275,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan) {
     	HAL_GPIO_WritePin(STAT1_LED_GPIO_Port, STAT1_LED_Pin, GPIO_PIN_SET);
     	last_can1_rx_time = HAL_GetTick();
         if (HAL_CAN_GetRxMessage(hcan, CAN_RX_FIFO0, &rxHeader, rxData) == HAL_OK) {
-            uint32_t msg_id = (rxHeader.IDE == CAN_ID_STD) ? rxHeader.StdId : rxHeader.ExtId;
-            if (msg_id == CONFIG_CAN_ID) {
-                Process_Config_Message(rxData);
-            } else if (Should_Forward(&rxHeader, 1)) {
+            if (Should_Forward(&rxHeader, 1)) {
                 Queue_Push(&q_can1_to_can2, &rxHeader, rxData, 1);
             }
         }
@@ -408,10 +283,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan) {
     	HAL_GPIO_WritePin(STAT2_LED_GPIO_Port, STAT2_LED_Pin, GPIO_PIN_SET);
     	last_can2_rx_time = HAL_GetTick();
         if (HAL_CAN_GetRxMessage(hcan, CAN_RX_FIFO0, &rxHeader, rxData) == HAL_OK) {
-            uint32_t msg_id = (rxHeader.IDE == CAN_ID_STD) ? rxHeader.StdId : rxHeader.ExtId;
-            if (msg_id == CONFIG_CAN_ID) {
-                Process_Config_Message(rxData);
-            } else if (Should_Forward(&rxHeader, 2)) {
+            if (Should_Forward(&rxHeader, 2)) {
                 Queue_Push(&q_can2_to_can1, &rxHeader, rxData, 2);
             }
         }
