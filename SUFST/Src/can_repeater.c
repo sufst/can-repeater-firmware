@@ -1,6 +1,7 @@
 #include "can_repeater.h"
 #include "main.h"
 #include "can_config.h"
+#include "can_s.h"
 
 extern CAN_HandleTypeDef hcan1;
 extern CAN_HandleTypeDef hcan2;
@@ -188,46 +189,43 @@ static void Broadcast_Heartbeat(void) {
     if ((now - last_heartbeat_time) >= STATUS_INTERVAL_MS) {
         last_heartbeat_time = now;
 
-        CAN_TxHeaderTypeDef txHeader;
-        uint32_t txMailbox;
-        uint8_t txData[8] = {0};
+        uint8_t txData[CAN_S_CAN_S_REPEATER_HEARTBEAT_LENGTH] = {0};
 
-        txHeader.StdId = STATUS_CAN_ID;
-        txHeader.ExtId = 0;
-        txHeader.RTR = CAN_RTR_DATA;
-        txHeader.IDE = CAN_ID_STD;
-        txHeader.DLC = 8;
-        txHeader.TransmitGlobalTime = DISABLE;
-
-        // Byte 0: CAN1 -> CAN2 Queue Depth (0 to MAX_QUEUE_SIZE)
-        txData[0] = (q_can1_to_can2.head >= q_can1_to_can2.tail) ?
+        struct can_s_can_s_repeater_heartbeat_t msg = {
+            .can_s_rptr_can1_to_can2_queue_depth = (q_can1_to_can2.head >= q_can1_to_can2.tail) ?
                     (q_can1_to_can2.head - q_can1_to_can2.tail) :
-                    (CAN_QUEUE_SIZE - q_can1_to_can2.tail + q_can1_to_can2.head);
-
-        // Byte 1: CAN2 -> CAN1 Queue Depth (0 to MAX_QUEUE_SIZE)
-        txData[1] = (q_can2_to_can1.head >= q_can2_to_can1.tail) ?
+                    (CAN_QUEUE_SIZE - q_can1_to_can2.tail + q_can1_to_can2.head),
+            .can_s_rptr_can2_to_can1_queue_depth = (q_can2_to_can1.head >= q_can2_to_can1.tail) ?
                     (q_can2_to_can1.head - q_can2_to_can1.tail) :
-                    (CAN_QUEUE_SIZE - q_can2_to_can1.tail + q_can2_to_can1.head);
+                    (CAN_QUEUE_SIZE - q_can2_to_can1.tail + q_can2_to_can1.head),
+            .can_s_rptr_can1_ewgf = (hcan1.Instance->ESR >> CAN_ESR_EWGF_Pos) & 0x1,
+            .can_s_rptr_can1_epvf = (hcan1.Instance->ESR >> CAN_ESR_EPVF_Pos) & 0x1,
+            .can_s_rptr_can1_boff = (hcan1.Instance->ESR >> CAN_ESR_BOFF_Pos) & 0x1,
+            .can_s_rptr_can1_lec  = (hcan1.Instance->ESR >> CAN_ESR_LEC_Pos)  & 0x7,
+            .can_s_rptr_can2_ewgf = (hcan2.Instance->ESR >> CAN_ESR_EWGF_Pos) & 0x1,
+            .can_s_rptr_can2_epvf = (hcan2.Instance->ESR >> CAN_ESR_EPVF_Pos) & 0x1,
+            .can_s_rptr_can2_boff = (hcan2.Instance->ESR >> CAN_ESR_BOFF_Pos) & 0x1,
+            .can_s_rptr_can2_lec  = (hcan2.Instance->ESR >> CAN_ESR_LEC_Pos)  & 0x7,
+            .can_s_rptr_uptime            = (uint16_t)(now / 1000),
+            .can_s_rptr_dropped_messages  = (uint16_t)dropped_messages,
+        };
 
-        // Byte 2 & 3: Hardware Error Status Registers (ESR)
-        // This tells us exactly if the chip is in Error Warning, Error Passive, or Bus-Off
-        txData[2] = hcan1.Instance->ESR & 0xFF;
-        txData[3] = hcan2.Instance->ESR & 0xFF;
+        can_s_can_s_repeater_heartbeat_pack(txData, &msg, sizeof(txData));
 
-        // Byte 4 & 5: Node Uptime in seconds (Rolling Counter)
-        // Byte 6 & 7: Dropped Messages Counter
-        uint32_t uptime_sec = now / 1000;
-        txData[4] = (uptime_sec >> 8) & 0xFF;
-        txData[5] = uptime_sec & 0xFF;
-        txData[6] = (dropped_messages >> 8) & 0xFF;
-        txData[7] = dropped_messages & 0xFF;
+        CAN_TxHeaderTypeDef txHeader = {
+            .StdId              = STATUS_CAN_ID,
+            .IDE                = CAN_ID_STD,
+            .RTR                = CAN_RTR_DATA,
+            .DLC                = sizeof(txData),
+            .TransmitGlobalTime = DISABLE,
+        };
 
-        // Broadcast to CAN1 if it's not currently locked up
+        uint32_t txMailbox;
+
         if (HAL_CAN_GetTxMailboxesFreeLevel(&hcan1) > 0) {
             HAL_CAN_AddTxMessage(&hcan1, &txHeader, txData, &txMailbox);
         }
 
-        // Broadcast to CAN2 if it's not currently locked up
         if (HAL_CAN_GetTxMailboxesFreeLevel(&hcan2) > 0) {
             HAL_CAN_AddTxMessage(&hcan2, &txHeader, txData, &txMailbox);
         }

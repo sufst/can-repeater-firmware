@@ -10,6 +10,7 @@
 
 #include "can_config.h"
 #include <stdlib.h>
+#include "<string.h>"
 
 // Buffer config
 #define CAN_QUEUE_SIZE 512 // large buffer to absorb larger bursts when 1Mbps >> 500kbps
